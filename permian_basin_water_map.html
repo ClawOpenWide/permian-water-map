@@ -74,7 +74,7 @@
         /* Mobile menu - always available */
         .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #16213e; border-bottom: 1px solid #333; padding: 10px; z-index: 1000; }
         .mobile-menu.open { display: block; }
-        .mobile-menu-item { padding: 10px; color: #eee; border-bottom: 1px solid #333; cursor: pointer; }
+        .mobile-menu-item { padding: 10px; color: #eee; border-bottom: 1px solid #333; cursor: pointer; text-align: right; }
         .mobile-menu-item:hover { background: #0f3460; }
         
         .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; }
@@ -102,6 +102,7 @@
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu-item" onclick="alert('Notifications coming soon')">Notifications</div>
+            <div class="mobile-menu-item" onclick="alert('Log out')">Log Out</div>
         </div>
     </div>
     
