@@ -13,7 +13,7 @@
         .header { background: linear-gradient(135deg, #16213e 0%, #0f3460 100%); padding: 12px 15px; border-bottom: 2px solid #e94560; display: flex; justify-content: space-between; align-items: center; position: relative; }
         .header h1 { font-size: 1.2rem; color: #fff; }
         .header p { display: none; }
-        .menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 5px; }
+        .menu-toggle { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 5px; }
         
         .container { display: flex; height: calc(100vh - 56px); }
         
@@ -60,7 +60,6 @@
         /* Mobile Styles */
         @media (max-width: 768px) {
             body { overflow: auto; }
-            .menu-toggle { display: block; }
             .header h1 { font-size: 1rem; }
             .container { flex-direction: column; height: auto; }
             #map { height: 45vh; min-height: 300px; }
@@ -70,11 +69,14 @@
             .stat-num { font-size: 1rem; }
             .legend-items { gap: 10px; }
             .legend-item { font-size: 0.65rem; }
-            .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #16213e; border-bottom: 1px solid #333; padding: 10px; z-index: 100; }
-            .mobile-menu.open { display: block; }
-            .mobile-menu-item { padding: 10px; color: #eee; border-bottom: 1px solid #333; cursor: pointer; }
-            .mobile-menu-item:hover { background: #0f3460; }
         }
+        
+        /* Mobile menu - always available */
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #16213e; border-bottom: 1px solid #333; padding: 10px; z-index: 1000; }
+        .mobile-menu.open { display: block; }
+        .mobile-menu-item { padding: 10px; color: #eee; border-bottom: 1px solid #333; cursor: pointer; }
+        .mobile-menu-item:hover { background: #0f3460; }
+        
         .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; }
         .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
         
