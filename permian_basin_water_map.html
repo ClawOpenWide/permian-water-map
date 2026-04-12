@@ -150,15 +150,8 @@
             console.log('Supabase init error:', e);
         }
 
-        // Test loading from database (just log, don't change UI)
-        if (supabase) {
-            supabase.from('stations').select('*').not('lat', 'is', null).then(({ data, error }) => {
-                if (error) console.log('DB error:', error.message);
-                else console.log('DB stations count:', data.length);
-            });
-        }
-
         // Station data - Updated with New Mexico
+        // This is the fallback data - used if database fails
         const stations = [
         {
                 "name": "Chaparral - Blk 12",
@@ -865,8 +858,48 @@
             renderStations();
         }
 
-        // Initial render
+        // Initial render with fallback data
         renderStations();
+
+        // Then try to load from database and update if successful
+        if (supabase) {
+            supabase.from('stations').select('*').not('lat', 'is', null).then(({ data, error }) => {
+                if (error) {
+                    console.log('DB load error:', error.message);
+                } else if (data && data.length > 0) {
+                    console.log('Loaded from DB:', data.length, 'stations');
+                    // Map database types to display types
+                    const typeMap = {
+                        'water': 'Non-Potable Water',
+                        'fresh': 'Fresh Water',
+                        'brine': 'Brine',
+                        'swd': 'SWD',
+                        'hauler': 'Water Hauler'
+                    };
+                    const dbStations = data.map(s => ({
+                        name: s.name,
+                        type: typeMap[s.type] || s.type,
+                        county: s.county,
+                        state: s.state,
+                        lat: s.lat,
+                        lng: s.lng,
+                        notes: s.notes
+                    }));
+                    // Update the stations array
+                    stations.length = 0;
+                    dbStations.forEach(s => stations.push(s));
+                    // Update stats
+                    const waterCount = stations.filter(s => s.type === 'Non-Potable Water' || s.type === 'Fresh Water').length;
+                    const brineCount = stations.filter(s => s.type === 'Brine').length;
+                    const swdCount = stations.filter(s => s.type === 'SWD').length;
+                    document.querySelector('.stat-num').textContent = waterCount;
+                    document.querySelectorAll('.stat-num')[1].textContent = brineCount;
+                    document.querySelectorAll('.stat-num')[2].textContent = swdCount;
+                    // Re-render
+                    renderStations();
+                }
+            });
+        }
     </script>
 </body>
 </html>
