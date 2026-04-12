@@ -144,11 +144,20 @@
         const API_URL = 'https://cqfvypmrogoootehsdfh.supabase.co';
         const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxZnZ5cG1yb2dvb290ZWhzZGZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Mzk1ODcsImV4cCI6MjA5MTIxNTU4N30.rGxaQsZhyjy7gaw7ZHmAVyKW1phQP2Ea4ZhHuWBeH_Q';
 
-        // Test fetch - log count after page loads
+        // Test fetch - load all station count
         setTimeout(() => {
-            fetch(API_URL + '/rest/v1/stations?select=name&limit=1', {
+            fetch(API_URL + '/rest/v1/stations?select=type&not(lat,is.null)', {
                 headers: { 'apikey': API_KEY, 'Authorization': 'Bearer ' + API_KEY }
-            }).then(r => r.json()).then(d => console.log('DB fetch works:', d)).catch(e => console.log('Fetch error:', e));
+            }).then(r => r.json()).then(data => {
+                console.log('Loaded stations:', data.length);
+                // Count by type
+                const waterCount = data.filter(s => s.type === 'water' || s.type === 'fresh').length;
+                const brineCount = data.filter(s => s.type === 'brine').length;
+                const swdCount = data.filter(s => s.type === 'swd').length;
+                document.querySelector('.stat-num').textContent = waterCount;
+                document.querySelectorAll('.stat-num')[1].textContent = brineCount;
+                document.querySelectorAll('.stat-num')[2].textContent = swdCount;
+            }).catch(e => console.log('Fetch error:', e));
         }, 2000);
 
         // Station data - Updated with New Mexico
