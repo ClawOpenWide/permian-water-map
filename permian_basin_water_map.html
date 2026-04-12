@@ -150,6 +150,14 @@
             console.log('Supabase init error:', e);
         }
 
+        // Test loading from database (just log, don't change UI)
+        if (supabase) {
+            supabase.from('stations').select('*').not('lat', 'is', null).then(({ data, error }) => {
+                if (error) console.log('DB error:', error.message);
+                else console.log('DB stations count:', data.length);
+            });
+        }
+
         // Station data - Updated with New Mexico
         const stations = [
         {
