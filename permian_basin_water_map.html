@@ -31,9 +31,9 @@
         .station-list { padding: 10px; flex: 1; overflow-y: auto; }
         .station-card { background: #0f3460; border-radius: 8px; padding: 10px; margin-bottom: 8px; border-left: 4px solid #e94560; }
         .station-card.water { border-left-color: #e94560; }
-        .station-card.fresh { border-left-color: #00d9ff; }
         .station-card.brine { border-left-color: #4ade80; }
         .station-card.swd { border-left-color: #ffd700; }
+        .station-card.fresh { border-left-color: #00d9ff; }
         .station-card.hauler { border-left-color: #f472b6; }
         
         .station-type { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.65rem; font-weight: bold; text-transform: uppercase; margin-bottom: 6px; }
@@ -148,24 +148,7 @@
         // Station data (loaded from Supabase)
         let stations = [];
 
-        // Color mapping
-        const colors = {
-            'water': '#e94560',
-            'fresh': '#00d9ff',
-            'brine': '#4ade80',
-            'swd': '#ffd700',
-            'hauler': '#f472b6'
-        };
-
-        // Initialize map
-        const map = L.map('map').setView([32.5, -103.5], 7);
-        
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-            maxZoom: 19
-        }).addTo(map);
-
-        // Load stations from Supabase
+        // Load stations from database
         async function loadStations() {
             const { data, error } = await supabase
                 .from('stations')
@@ -188,12 +171,29 @@
             
             renderStations();
         }
+        // Color mapping
+        const colors = {
+            'water': '#e94560',
+            'fresh': '#00d9ff',
+            'brine': '#4ade80',
+            'swd': '#ffd700',
+            'hauler': '#f472b6',
+            'hauler': '#f472b6'
+        };
+
+        // Initialize map
+        const map = L.map('map').setView([32.5, -103.5], 7);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+            maxZoom: 19
+        }).addTo(map);
 
         let markers = [];
-        let currentFilter = 'all';
 
         // Load stations on page load
         loadStations();
+        let currentFilter = 'all';
 
         function getMarkerColor(type) {
             return colors[type] || '#e94560';
@@ -241,7 +241,7 @@
                     if (currentFilter === 'water') return s.type === 'water' || s.type === 'fresh';
                     if (currentFilter === 'brine') return s.type === 'brine';
                     if (currentFilter === 'swd') return s.type === 'swd';
-                    if (currentFilter === 'hauler') return s.type === 'hauler';
+                    if (currentFilter === 'hauler') return s.type === 'hauler' || s.type === 'hauler';
                     return true;
                 });
             
@@ -256,11 +256,10 @@
                 
                 // Add to sidebar
                 const card = document.createElement('div');
-                const typeClass = station.type;
+                const typeClass = station.type.toLowerCase().replace(/\s+/g, '-');
                 card.className = `station-card ${typeClass}`;
-                const typeLabels = { 'water': 'Water', 'fresh': 'Fresh', 'brine': 'Brine', 'swd': 'SWD', 'hauler': 'Hauler' };
                 card.innerHTML = `
-                    <span class="station-type ${typeClass}">${typeLabels[station.type] || station.type}</span>
+                    <span class="station-type ${typeClass}">${station.type === 'water' ? 'Water' : station.type === 'fresh' ? 'Fresh' : station.type === 'brine' ? 'Brine' : station.type === 'swd' ? 'SWD' : station.type === 'hauler' ? 'Hauler' : station.type}</span>
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
                     <div class="station-name">${station.name}</div>
                     <div class="station-location">${station.county}, ${station.state}</div>
