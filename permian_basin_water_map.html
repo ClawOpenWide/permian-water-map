@@ -742,50 +742,7 @@
                 "notes": "SwiftWater frac water services in Permian"
         }
 ];
-
-        // Load stations from Supabase (keeps fallback data if DB fails)
-        async function loadStationsFromDB() {
-            try {
-                const { data, error } = await supabase
-                    .from('stations')
-                    .select('*')
-                    .not('lat', 'is', null);
-                
-                if (error) throw error;
-                if (data && data.length > 0) {
-                    // Map DB types to display types
-                    const typeMap = {
-                        'water': 'Non-Potable Water',
-                        'fresh': 'Fresh Water',
-                        'brine': 'Brine',
-                        'swd': 'SWD',
-                        'hauler': 'Water Hauler'
-                    };
-                    // Replace station data with DB data
-                    stations.length = 0;
-                    data.forEach(s => {
-                        stations.push({
-                            name: s.name,
-                            type: typeMap[s.type] || s.type,
-                            county: s.county,
-                            state: s.state,
-                            lat: s.lat,
-                            lng: s.lng,
-                            notes: s.notes
-                        });
-                    });
-                    // Update stats
-                    const waterCount = stations.filter(s => s.type === 'Non-Potable Water' || s.type === 'Fresh Water').length;
-                    const brineCount = stations.filter(s => s.type === 'Brine').length;
-                    const swdCount = stations.filter(s => s.type === 'SWD').length;
-                    document.querySelector('.stat-num').textContent = waterCount;
-                    document.querySelectorAll('.stat-num')[1].textContent = brineCount;
-                    document.querySelectorAll('.stat-num')[2].textContent = swdCount;
-                }
-            } catch (err) {
-                console.log('Using fallback data:', err.message);
-            }
-        }
+;
 
         // Color mapping
         const colors = {
@@ -895,8 +852,8 @@
             renderStations();
         }
 
-        // Initial render - try database first
-        loadStationsFromDB().then(() => renderStations());
+        // Initial render
+        renderStations();
     </script>
 </body>
 </html>
