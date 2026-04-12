@@ -4,6 +4,30 @@
 
 Mobile-first web application for tracking water infrastructure in the Permian Basin (Texas + New Mexico). Enables drivers, operators, and site managers to find water stations, brine points, SWDs (Salt Water Disposal), and water haulers - with real-time status updates and notifications.
 
+## Development Procedures
+
+### Standard Operating Procedures
+
+1. **Double-check code before pushing**
+   - Review git diff before committing
+   - Verify no unintended changes
+   - Test locally if possible
+
+2. **Wait for confirmation before pushing**
+   - Show user the changes first
+   - Wait for user confirmation before git push
+   - Don't push until user says "push it"
+
+3. **Small incremental changes**
+   - Make one small change at a time
+   - Test each change before moving to next
+   - Revert immediately if something breaks
+
+4. **Always have a working fallback**
+   - Keep hardcoded data as fallback
+   - Never break the initial render
+   - If database fails, page should still work
+
 ## Scope of Work
 
 ### Features Planned
@@ -75,11 +99,16 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
   - SWD: 15
   - Water Hauler: 4
 
+- [x] **Database Integration** - Using native fetch API:
+  - Stats update from database after page loads
+  - Fallback hardcoded data ensures page always works
+  - Uses setTimeout delay to prevent render conflicts
+
 ### To Do
 
 - [ ] Set up Supabase Authentication (email/password + Google OAuth)
 - [ ] Configure file storage for photo submissions
-- [ ] Update frontend to fetch from Supabase instead of hardcoded data
+- [ ] Load station data from database (not just counts)
 - [ ] Implement authentication flow
 - [ ] Build station detail view (requires sign-in)
 - [ ] Add pin/follow functionality
@@ -91,6 +120,31 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
 - [ ] Add English/Spanish toggle
 - [ ] Build admin dashboard
 
+## Technical Notes
+
+### Database Access Pattern
+- Use native **fetch API** instead of Supabase client library
+- Client library causes issues on mobile browsers
+- Keep API keys in code (using anon key is safe for read operations)
+
+```javascript
+// Working pattern - fetch with delay
+setTimeout(() => {
+    fetch(API_URL + '/rest/v1/stations?select=type', {
+        headers: { 'apikey': API_KEY, 'Authorization': 'Bearer ' + API_KEY }
+    }).then(r => r.json()).then(data => {
+        // Update stats
+    });
+}, 2000);
+```
+
+### Lessons Learned
+1. Don't replace core data arrays mid-render
+2. Use native fetch instead of Supabase client when possible
+3. Always have fallback data that loads immediately
+4. Use setTimeout to delay database updates
+5. Only update stats/counts, not full station lists
+
 ## Technology Stack
 
 - **Frontend**: HTML/CSS/JavaScript (mobile-first)
@@ -100,17 +154,17 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
 ## Supabase Configuration
 
 - **Project URL**: https://cqfvypmrogoootehsdfh.supabase.co
-- **API Keys**: (stored locally, not committed)
+- **API Keys**: (stored in code - anon key for public reads)
 
 ## Getting Started
 
 1. Set up Supabase auth providers in Dashboard → Authentication → Providers
 2. Enable file storage in Dashboard → Storage
-3. Update frontend to use Supabase client
-4. Deploy to hosting (Vercel, Netlify, etc.)
+3. Deploy to hosting (Vercel, Netlify, etc.)
 
 ## Notes
 
 - Stations without coordinates were not imported (field location codes with null lat/lng)
 - Photo storage bucket needs to be created
 - OCR processing will require Supabase Edge Functions or external service
+- GPS location can be captured when drivers submit photos to help fill in missing coordinates
