@@ -865,8 +865,22 @@
             renderStations();
         }
 
-        // Initial render
+        // Initial render with fallback data
         renderStations();
+
+        // Try to load from database - use setTimeout to delay
+        setTimeout(() => {
+            if (supabase) {
+                supabase.from('stations').select('*').not('lat', 'is', null).then(({ data, error }) => {
+                    if (error) {
+                        console.log('DB error:', error.message);
+                    } else if (data && data.length > 0) {
+                        console.log('DB loaded:', data.length);
+                        // Just log success - don't change UI yet
+                    }
+                });
+            }
+        }, 1000);
     </script>
 </body>
 </html>
