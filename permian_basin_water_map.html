@@ -140,24 +140,6 @@
     </div>
 
     <script>
-        // Supabase config - wrapped in try/catch
-        let supabase;
-        try {
-            const supabaseUrl = 'https://cqfvypmrogoootehsdfh.supabase.co';
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxZnZ5cG1yb2dvb290ZWhzZGZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Mzk1ODcsImV4cCI6MjA5MTIxNTU4N30.rGxaQsZhyjy7gaw7ZHmAVyKW1phQP2Ea4ZhHuWBeH_Q';
-            supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-        } catch (e) {
-            console.log('Supabase init error:', e);
-        }
-
-        // Test loading from database (just log, don't change UI)
-        if (supabase) {
-            supabase.from('stations').select('*').not('lat', 'is', null).then(({ data, error }) => {
-                if (error) console.log('DB error:', error.message);
-                else console.log('DB stations count:', data.length);
-            });
-        }
-
         // Station data - Updated with New Mexico
         const stations = [
         {
