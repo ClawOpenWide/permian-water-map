@@ -868,6 +868,14 @@
             startDiv.textContent = 'Rendering ' + stations.length + ' stations...';
             list.appendChild(startDiv);
             
+            // Count how many have coordinates
+            const withCoords = stations.filter(s => s.lat && s.lng).length;
+            const countDiv = document.createElement('div');
+            countDiv.style.padding = '10px';
+            countDiv.style.color = '#888';
+            countDiv.textContent = 'With coordinates: ' + withCoords;
+            list.appendChild(countDiv);
+            
             // Clear existing markers
             markers.forEach(m => map.removeLayer(m));
             markers = [];
