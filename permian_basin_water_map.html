@@ -899,6 +899,7 @@
             filterDiv.textContent = 'Filtered: ' + filtered.length + ' (currentFilter: ' + currentFilter + ')';
             list.appendChild(filterDiv);
             
+            try {
             filtered.forEach(station => {
                 // Skip stations without valid coordinates
                 if (!station.lat || !station.lng) {
@@ -930,6 +931,9 @@
                 card.onclick = () => openStationDetail(station, dbData);
                 list.appendChild(card);
             });
+            } catch(e) {
+                list.innerHTML += '<div style="padding:10px;color:red;">Error in loop: ' + e.message + '</div>';
+            }
         }
 
         function toggleMobileMenu() {
