@@ -187,13 +187,16 @@
         const API_URL = 'https://cqfvypmrogoootehsdfh.supabase.co';
         const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxZnZ5cG1yb2dvb290ZWhzZGZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Mzk1ODcsImV4cCI6MjA5MTIxNTU4N30.rGxaQsZhyjy7gaw7ZHmAVyKW1phQP2Ea4ZhHuWBeH_Q';
         
-        // Initialize Supabase Auth (wrapped in try-catch to prevent breaking app)
+        // Auth state (initialized lazily)
         let supabase = null;
         let currentUser = null;
+        let authInitialized = false;
         
-        try {
-            if (window.supabase) {
-                supabase = window.supabase.createClient(API_URL, API_KEY);
+        function initAuth() {
+            if (authInitialized) return;
+            try {
+                if (window.supabase && window.supabase.createClient) {
+                    supabase = window.supabase.createClient(API_URL, API_KEY);
                 
                 // Check auth state on load
                 supabase.auth.getSession().then(({ data: { session } }) => {
@@ -206,9 +209,11 @@
                     currentUser = session?.user || null;
                     updateAuthUI();
                 }).catch(e => console.log('Auth onAuthStateChange error:', e));
+                    authInitialized = true;
+                }
+            } catch (e) {
+                console.log('Supabase init error:', e);
             }
-        } catch (e) {
-            console.log('Supabase init error:', e);
         }
         
         function updateAuthUI() {
@@ -216,6 +221,7 @@
         }
         
         async function signInWithGoogle() {
+            initAuth();
             if (!supabase) {
                 alert('Authentication not available');
                 return;
@@ -230,6 +236,7 @@
         }
         
         async function signInWithEmail(email, password) {
+            initAuth();
             if (!supabase) {
                 alert('Authentication not available');
                 return;
@@ -1164,6 +1171,7 @@
                 alert('Password must be at least 6 characters');
                 return;
             }
+            initAuth();
             if (supabase) {
                 supabase.auth.signUp({ email, password })
                     .then(({ error }) => {
