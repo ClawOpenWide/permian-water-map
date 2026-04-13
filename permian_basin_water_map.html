@@ -854,6 +854,7 @@
         }
 
         function renderStations() {
+            console.log('renderStations called, stations.length:', stations ? stations.length : 'undefined');
             const list = document.getElementById('stationList');
             list.innerHTML = '';
             
