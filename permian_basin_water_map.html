@@ -868,13 +868,15 @@
             startDiv.textContent = 'Rendering ' + stations.length + ' stations...';
             list.appendChild(startDiv);
             
-            // Count how many have coordinates
-            const withCoords = stations.filter(s => s.lat && s.lng).length;
-            const countDiv = document.createElement('div');
-            countDiv.style.padding = '10px';
-            countDiv.style.color = '#888';
-            countDiv.textContent = 'With coordinates: ' + withCoords;
-            list.appendChild(countDiv);
+            // Check first station
+            if (stations.length > 0) {
+                const first = stations[0];
+                const firstDiv = document.createElement('div');
+                firstDiv.style.padding = '10px';
+                firstDiv.style.color = '#888';
+                firstDiv.textContent = 'First station: ' + first.name + ' - lat: ' + first.lat + ' lng: ' + first.lng;
+                list.appendChild(firstDiv);
+            }
             
             // Clear existing markers
             markers.forEach(m => map.removeLayer(m));
