@@ -899,15 +899,17 @@
             
             filtered.forEach(station => {
                 // Skip stations without valid coordinates
-                if (!station.lat || !station.lng) return;
+                if (!station.lat || !station.lng) {
+                    console.log('Skipping:', station.name, '- no coordinates');
+                    return;
+                }
+                
+                console.log('Adding station:', station.name);
                 
                 // Add to map
                 const marker = createMarker(station);
                 marker.addTo(map);
                 markers.push(marker);
-                
-                // Debug: show each station
-                console.log('Adding station:', station.name);
                 
                 // Add to sidebar
                 const card = document.createElement('div');
