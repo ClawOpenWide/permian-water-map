@@ -890,6 +890,13 @@
                     return true;
                 });
             
+            // Debug: show filtered count
+            const filterDiv = document.createElement('div');
+            filterDiv.style.padding = '10px';
+            filterDiv.style.color = '#888';
+            filterDiv.textContent = 'Filtered: ' + filtered.length + ' (currentFilter: ' + currentFilter + ')';
+            list.appendChild(filterDiv);
+            
             filtered.forEach(station => {
                 // Skip stations without valid coordinates
                 if (!station.lat || !station.lng) return;
