@@ -103,6 +103,15 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
   - Stats update from database after page loads
   - Fallback hardcoded data ensures page always works
   - Uses setTimeout delay to prevent render conflicts
+  - Station data loaded from database (level, status, has_water)
+  - Tall City Brine live data synced (6 stations with coordinates)
+
+- [x] **Tall City Brine Integration** - Live data from tcbrine.com:
+  - Web scraper fetches tank levels (feet, barrels, %)
+  - Sync script updates Supabase database every run
+  - Displays live levels in map popups and station cards
+  - 28 stations tracked, 6 have coordinates in database
+  - Created scrape_tall_city_brine.js and sync_tall_city_brine.js
 
 ### To Do
 

@@ -47,6 +47,10 @@
         .station-location { color: #aaa; font-size: 0.8rem; }
         .station-coords { display: none; }
         .station-notes { color: #888; font-size: 0.75rem; margin-top: 4px; font-style: italic; }
+        .station-status { font-size: 0.75rem; font-weight: bold; margin: 4px 0; padding: 3px 6px; border-radius: 3px; display: inline-block; }
+        .station-status.status-open { background: #22c55e; color: #fff; }
+        .station-status.status-closed { background: #ef4444; color: #fff; }
+        .station-status.status-low { background: #f59e0b; color: #000; }
         
         .legend { padding: 12px 15px; background: #16213e; border-top: 1px solid #333; }
         .legend h3 { font-size: 0.85rem; margin-bottom: 8px; color: #e94560; }
@@ -144,19 +148,26 @@
         const API_URL = 'https://cqfvypmrogoootehsdfh.supabase.co';
         const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxZnZ5cG1yb2dvb290ZWhzZGZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Mzk1ODcsImV4cCI6MjA5MTIxNTU4N30.rGxaQsZhyjy7gaw7ZHmAVyKW1phQP2Ea4ZhHuWBeH_Q';
 
-        // Test fetch - load all station count
+        // Test fetch - load all station data from database
+        let dbStations = {};
         setTimeout(() => {
-            fetch(API_URL + '/rest/v1/stations?select=type&not(lat,is.null)', {
+            fetch(API_URL + '/rest/v1/stations?select=id,name,type,county,state,lat,lng,notes,level,status,has_water&not(lat,is.null)', {
                 headers: { 'apikey': API_KEY, 'Authorization': 'Bearer ' + API_KEY }
             }).then(r => r.json()).then(data => {
-                console.log('Loaded stations:', data.length);
-                // Count by type
+                console.log('Loaded stations from DB:', data.length);
+                // Build lookup by name
+                data.forEach(s => {
+                    dbStations[s.name] = s;
+                });
+                // Update stats counts
                 const waterCount = data.filter(s => s.type === 'water' || s.type === 'fresh').length;
                 const brineCount = data.filter(s => s.type === 'brine').length;
                 const swdCount = data.filter(s => s.type === 'swd').length;
                 document.querySelector('.stat-num').textContent = waterCount;
                 document.querySelectorAll('.stat-num')[1].textContent = brineCount;
                 document.querySelectorAll('.stat-num')[2].textContent = swdCount;
+                // Re-render stations with DB data
+                renderStations();
             }).catch(e => console.log('Fetch error:', e));
         }, 2000);
 
@@ -799,10 +810,14 @@
             
             const marker = L.marker([station.lat, station.lng], { icon: icon });
             
+            // Check for DB data
+            const dbData = dbStations[station.name] || {};
+            
             const popupContent = `
                 <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
                     <strong style="font-size:14px;">${station.name}</strong><br>
                     <span style="color:#888;font-size:12px;">${station.county}, ${station.state}</span><br>
+                    ${dbData && dbData.level ? `<span style="color:${dbData.status === 'open' ? '#22c55e' : '#ef4444'};font-size:12px;font-weight:bold;">${dbData.level} ft | ${dbData.has_water ? dbData.barrels + ' bbl' : 'Empty'}</span><br>` : ''}
                     <span style="color:#666;font-size:11px;">${station.notes}</span>
                 </div>
             `;
@@ -843,9 +858,20 @@
                 const card = document.createElement('div');
                 const typeClass = station.type.toLowerCase().replace(/\s+/g, '-');
                 card.className = `station-card ${typeClass}`;
+                
+                // Check for DB data (level/status)
+                const dbData = dbStations[station.name] || {};
+                let statusHtml = '';
+                if (dbData.level) {
+                    const statusClass = dbData.status === 'open' ? 'status-open' : (dbData.status === 'closed' ? 'status-closed' : 'status-low');
+                    const statusLabel = dbData.status === 'open' ? 'Open' : (dbData.status === 'closed' ? 'Empty' : 'Low');
+                    statusHtml = `<div class="station-status ${statusClass}">${dbData.level} ft | ${dbData.has_water ? dbData.barrels + ' bbl' : 'Empty'}</div>`;
+                }
+                
                 card.innerHTML = `
                     <span class="station-type ${typeClass}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
+                    ${statusHtml}
                     <div class="station-name">${station.name}</div>
                     <div class="station-location">${station.county}, ${station.state}</div>
                     <div class="station-coords">${station.lat.toFixed(4)}, ${station.lng.toFixed(4)}</div>
