@@ -113,6 +113,20 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
   - 28 stations tracked, 6 have coordinates in database
   - Created scrape_tall_city_brine.js and sync_tall_city_brine.js
 
+## Known Issues / To Fix
+
+- **Menu shows both Sign In and Log Out** - should only show one based on auth state
+- **Sign In in menu doesn't open login modal** - onClick handler not working
+- **Tapping station cards doesn't open detail modal** - onClick handler not working
+- **Station detail modal not functioning** - needs debugging
+
+## Recent Changes (2026-04-13)
+
+- Added login modal with Google and email options
+- Added "Sign In" to menu (should toggle to "Log Out" when authenticated)
+- Added station detail modal (login-gated content with levels/charts/wait times)
+- Supabase auth loads dynamically (not on page load to avoid breaking map)
+
 ### To Do
 
 - [ ] Set up Supabase Authentication (email/password + Google OAuth)
