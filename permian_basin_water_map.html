@@ -860,25 +860,7 @@
             const list = document.getElementById('stationList');
             list.innerHTML = '';
             if (!stations) {
-                list.innerHTML = '<div style="padding:10px;color:#f00;">Error: stations data not found</div>';
                 return;
-            }
-            
-            // Show we're starting
-            const startDiv = document.createElement('div');
-            startDiv.style.padding = '10px';
-            startDiv.style.color = '#888';
-            startDiv.textContent = 'Rendering ' + stations.length + ' stations...';
-            list.appendChild(startDiv);
-            
-            // Check first station
-            if (stations.length > 0) {
-                const first = stations[0];
-                const firstDiv = document.createElement('div');
-                firstDiv.style.padding = '10px';
-                firstDiv.style.color = '#888';
-                firstDiv.textContent = 'First station: ' + first.name + ' - lat: ' + first.lat + ' lng: ' + first.lng;
-                list.appendChild(firstDiv);
             }
             
             // Clear existing markers
@@ -894,13 +876,6 @@
                     if (currentFilter === 'hauler') return s.type === 'Water Hauler' || s.type === 'Water Hauler/Disposal';
                     return true;
                 });
-            
-            // Debug: show filtered count
-            const filterDiv = document.createElement('div');
-            filterDiv.style.padding = '10px';
-            filterDiv.style.color = '#888';
-            filterDiv.textContent = 'Filtered: ' + filtered.length + ' (currentFilter: ' + currentFilter + ')';
-            list.appendChild(filterDiv);
             
             try {
             filtered.forEach(station => {
@@ -935,15 +910,8 @@
                 list.appendChild(card);
             });
             } catch(e) {
-                list.innerHTML += '<div style="padding:10px;color:red;">Error in loop: ' + e.message + '</div>';
+                console.log('Error rendering stations:', e);
             }
-            
-            // Show completion
-            const doneDiv = document.createElement('div');
-            doneDiv.style.padding = '10px';
-            doneDiv.style.color = '#4ade80';
-            doneDiv.textContent = 'Done! Added ' + markers.length + ' markers';
-            list.appendChild(doneDiv);
         }
 
         function toggleMobileMenu() {
