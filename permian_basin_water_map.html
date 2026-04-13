@@ -930,7 +930,7 @@
                     <div class="station-notes">${station.notes}</div>
                     <div class="tap-hint">Tap for details</div>
                 `;
-                const dbData = dbStations[station.name] || {};
+                const dbData = (typeof dbStations !== 'undefined' ? dbStations : {})[station.name] || {};
                 card.onclick = () => openStationDetail(station, dbData);
                 list.appendChild(card);
             });
