@@ -179,29 +179,39 @@
         const API_URL = 'https://cqfvypmrogoootehsdfh.supabase.co';
         const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxZnZ5cG1yb2dvb290ZWhzZGZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Mzk1ODcsImV4cCI6MjA5MTIxNTU4N30.rGxaQsZhyjy7gaw7ZHmAVyKW1phQP2Ea4ZhHuWBeH_Q';
         
-        // Initialize Supabase Auth
-        const supabase = window.supabase.createClient(API_URL, API_KEY);
-        
-        // Auth state
+        // Initialize Supabase Auth (wrapped in try-catch to prevent breaking app)
+        let supabase = null;
         let currentUser = null;
         
-        // Check auth state on load
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            currentUser = session?.user || null;
-            updateAuthUI();
-        });
-        
-        // Listen for auth changes
-        supabase.auth.onAuthStateChange((event, session) => {
-            currentUser = session?.user || null;
-            updateAuthUI();
-        });
+        try {
+            if (window.supabase) {
+                supabase = window.supabase.createClient(API_URL, API_KEY);
+                
+                // Check auth state on load
+                supabase.auth.getSession().then(({ data: { session } }) => {
+                    currentUser = session?.user || null;
+                    updateAuthUI();
+                }).catch(e => console.log('Auth getSession error:', e));
+                
+                // Listen for auth changes
+                supabase.auth.onAuthStateChange((event, session) => {
+                    currentUser = session?.user || null;
+                    updateAuthUI();
+                }).catch(e => console.log('Auth onAuthStateChange error:', e));
+            }
+        } catch (e) {
+            console.log('Supabase init error:', e);
+        }
         
         function updateAuthUI() {
             console.log('Auth state:', currentUser ? 'logged in' : 'logged out');
         }
         
         async function signInWithGoogle() {
+            if (!supabase) {
+                alert('Authentication not available');
+                return;
+            }
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
@@ -212,6 +222,10 @@
         }
         
         async function signInWithEmail(email, password) {
+            if (!supabase) {
+                alert('Authentication not available');
+                return;
+            }
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password
@@ -223,7 +237,7 @@
         }
         
         async function signOut() {
-            await supabase.auth.signOut();
+            if (supabase) await supabase.auth.signOut();
         }
 
         // Test fetch - load all station data from database
