@@ -47,49 +47,6 @@
         .station-location { color: #aaa; font-size: 0.8rem; }
         .station-coords { display: none; }
         .station-notes { color: #888; font-size: 0.75rem; margin-top: 4px; font-style: italic; }
-        .station-status { font-size: 0.75rem; font-weight: bold; margin: 4px 0; padding: 3px 6px; border-radius: 3px; display: inline-block; }
-        .station-status.status-open { background: #22c55e; color: #fff; }
-        .station-status.status-closed { background: #ef4444; color: #fff; }
-        .station-status.status-low { background: #f59e0b; color: #000; }
-        .tap-hint { color: #4ade80; font-size: 0.7rem; margin-top: 6px; text-align: right; }
-        
-        /* Detail Modal */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; }
-        .modal-overlay.open { display: flex; align-items: center; justify-content: center; }
-        .modal-content { background: #16213e; border-radius: 12px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 20px; border: 1px solid #333; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .modal-header h2 { font-size: 1.1rem; color: #fff; }
-        .modal-close { background: none; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; }
-        .detail-section { margin-bottom: 15px; }
-        .detail-section h3 { font-size: 0.85rem; color: #00d9ff; margin-bottom: 8px; text-transform: uppercase; }
-        .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #222; }
-        .detail-label { color: #888; font-size: 0.85rem; }
-        .detail-value { color: #fff; font-size: 0.85rem; font-weight: bold; }
-        .directions-btn { display: block; width: 100%; padding: 14px; background: #4ade80; color: #000; text-align: center; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1rem; margin-top: 10px; }
-        .directions-btn:hover { background: #3bcf70; }
-        .history-chart { height: 120px; background: #0f3460; border-radius: 6px; padding: 10px; margin-top: 8px; }
-        .chart-bars { display: flex; align-items: flex-end; justify-content: space-around; height: 80px; gap: 4px; }
-        .chart-bar { flex: 1; background: #4ade80; border-radius: 2px 2px 0 0; min-height: 4px; position: relative; }
-        .chart-bar::after { content: attr(data-value); position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 0.6rem; color: #888; }
-        .chart-labels { display: flex; justify-content: space-around; margin-top: 8px; font-size: 0.65rem; color: #666; }
-        .wait-time { color: #ffd700; font-weight: bold; }
-        .login-prompt { text-align: center; padding: 30px 20px; color: #888; }
-        .login-prompt p { margin-bottom: 20px; font-size: 0.95rem; }
-        .login-options { display: flex; flex-direction: column; gap: 12px; max-width: 280px; margin: 0 auto; }
-        .login-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; width: 100%; }
-        .login-btn.google { background: #fff; color: #333; border: 1px solid #ddd; }
-        .login-btn.google:hover { background: #f5f5f5; }
-        .login-btn.email { background: #0f3460; color: #fff; }
-        .login-btn.email:hover { background: #1a4a7a; }
-        
-        /* Email login form */
-        .email-login-form { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .email-login-form input { padding: 12px; border-radius: 6px; border: 1px solid #444; background: #0f3460; color: #fff; font-size: 0.95rem; }
-        .email-login-form input::placeholder { color: #888; }
-        .email-login-form button { padding: 12px; border-radius: 6px; border: none; background: #4ade80; color: #000; font-weight: bold; cursor: pointer; }
-        .create-account-link { text-align: center; margin-top: 12px; font-size: 0.85rem; }
-        .create-account-link a { color: #00d9ff; cursor: pointer; text-decoration: underline; }
-        .google-icon { width: 18px; height: 18px; }
         
         .legend { padding: 12px 15px; background: #16213e; border-top: 1px solid #333; }
         .legend h3 { font-size: 0.85rem; margin-bottom: 8px; color: #e94560; }
@@ -183,98 +140,23 @@
     </div>
 
     <script>
-        // Supabase API config
+        // Supabase API config (using fetch, no client library needed)
         const API_URL = 'https://cqfvypmrogoootehsdfh.supabase.co';
         const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxZnZ5cG1yb2dvb290ZWhzZGZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Mzk1ODcsImV4cCI6MjA5MTIxNTU4N30.rGxaQsZhyjy7gaw7ZHmAVyKW1phQP2Ea4ZhHuWBeH_Q';
-        
-        // Auth state (initialized lazily)
-        let supabase = null;
-        let currentUser = null;
-        let authInitialized = false;
-        
-        function initAuth() {
-            if (authInitialized) return;
-            try {
-                if (window.supabase && window.supabase.createClient) {
-                    supabase = window.supabase.createClient(API_URL, API_KEY);
-                
-                // Check auth state on load
-                supabase.auth.getSession().then(({ data: { session } }) => {
-                    currentUser = session?.user || null;
-                    updateAuthUI();
-                }).catch(e => console.log('Auth getSession error:', e));
-                
-                // Listen for auth changes
-                supabase.auth.onAuthStateChange((event, session) => {
-                    currentUser = session?.user || null;
-                    updateAuthUI();
-                }).catch(e => console.log('Auth onAuthStateChange error:', e));
-                    authInitialized = true;
-                }
-            } catch (e) {
-                console.log('Supabase init error:', e);
-            }
-        }
-        
-        function updateAuthUI() {
-            console.log('Auth state:', currentUser ? 'logged in' : 'logged out');
-        }
-        
-        async function signInWithGoogle() {
-            initAuth();
-            if (!supabase) {
-                alert('Authentication not available');
-                return;
-            }
-            const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    redirectTo: window.location.href
-                }
-            });
-            if (error) console.error('Google sign in error:', error);
-        }
-        
-        async function signInWithEmail(email, password) {
-            initAuth();
-            if (!supabase) {
-                alert('Authentication not available');
-                return;
-            }
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email,
-                password
-            });
-            if (error) {
-                alert('Sign in error: ' + error.message);
-            }
-            return { data, error };
-        }
-        
-        async function signOut() {
-            if (supabase) await supabase.auth.signOut();
-        }
 
-        // Test fetch - load all station data from database
-        let dbStations = {};
+        // Test fetch - load all station count
         setTimeout(() => {
-            fetch(API_URL + '/rest/v1/stations?select=id,name,type,county,state,lat,lng,notes,level,status,has_water&not(lat,is.null)', {
+            fetch(API_URL + '/rest/v1/stations?select=type&not(lat,is.null)', {
                 headers: { 'apikey': API_KEY, 'Authorization': 'Bearer ' + API_KEY }
             }).then(r => r.json()).then(data => {
-                console.log('Loaded stations from DB:', data.length);
-                // Build lookup by name
-                data.forEach(s => {
-                    dbStations[s.name] = s;
-                });
-                // Update stats counts
+                console.log('Loaded stations:', data.length);
+                // Count by type
                 const waterCount = data.filter(s => s.type === 'water' || s.type === 'fresh').length;
                 const brineCount = data.filter(s => s.type === 'brine').length;
                 const swdCount = data.filter(s => s.type === 'swd').length;
                 document.querySelector('.stat-num').textContent = waterCount;
                 document.querySelectorAll('.stat-num')[1].textContent = brineCount;
                 document.querySelectorAll('.stat-num')[2].textContent = swdCount;
-                // Re-render stations with DB data
-                renderStations();
             }).catch(e => console.log('Fetch error:', e));
         }, 2000);
 
@@ -917,15 +799,11 @@
             
             const marker = L.marker([station.lat, station.lng], { icon: icon });
             
-            // Check for DB data
-            const dbData = dbStations[station.name] || {};
-            
             const popupContent = `
                 <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
                     <strong style="font-size:14px;">${station.name}</strong><br>
                     <span style="color:#888;font-size:12px;">${station.county}, ${station.state}</span><br>
-                    <span style="color:#666;font-size:11px;">${station.notes}</span><br>
-                    <span style="color:#e94560;font-size:10px;">Tap for details</span>
+                    <span style="color:#666;font-size:11px;">${station.notes}</span>
                 </div>
             `;
             
@@ -965,10 +843,6 @@
                 const card = document.createElement('div');
                 const typeClass = station.type.toLowerCase().replace(/\s+/g, '-');
                 card.className = `station-card ${typeClass}`;
-                
-                // Check for DB data (level/status) - hidden in public view
-                const dbData = dbStations[station.name] || {};
-                
                 card.innerHTML = `
                     <span class="station-type ${typeClass}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
@@ -976,9 +850,8 @@
                     <div class="station-location">${station.county}, ${station.state}</div>
                     <div class="station-coords">${station.lat.toFixed(4)}, ${station.lng.toFixed(4)}</div>
                     <div class="station-notes">${station.notes}</div>
-                    <div class="tap-hint">Tap for details</div>
                 `;
-                card.onclick = () => openStationDetail(station, dbData);
+                card.onclick = () => map.setView([station.lat, station.lng], 10);
                 list.appendChild(card);
             });
         }
@@ -996,202 +869,6 @@
 
         // Initial render
         renderStations();
-    </script>
-<!-- Station Detail Modal -->
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="detailTitle">Station Name</h2>
-                <button class="modal-close" onclick="closeDetailModal()">&times;</button>
-            </div>
-            <div id="detailBody"></div>
-        </div>
-    </div>
-    
-    <script>
-        // Auth state - uses Supabase auth
-        let isLoggedIn = false;
-        
-        // Update isLoggedIn when auth state changes
-        const originalUpdateAuthUI = updateAuthUI;
-        updateAuthUI = function() {
-            isLoggedIn = !!currentUser;
-            originalUpdateAuthUI();
-            // Refresh detail modal if open
-            const modal = document.getElementById('detailModal');
-            if (modal.classList.contains('open')) {
-                const lastStation = lastOpenedStation;
-                if (lastStation) {
-                    const dbData = dbStations[lastStation.name] || {};
-                    openStationDetail(lastStation, dbData);
-                }
-            }
-        }
-        
-        let lastOpenedStation = null;
-        
-        function openStationDetail(station, dbData) {
-            lastOpenedStation = station;
-            const modal = document.getElementById('detailModal');
-            const title = document.getElementById('detailTitle');
-            const body = document.getElementById('detailBody');
-            
-            title.textContent = station.name;
-            
-            // Google Maps directions link
-            const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${station.lat},${station.lng}`;
-            
-            if (!isLoggedIn) {
-                // Show login prompt
-                body.innerHTML = `
-                    <div class="login-prompt">
-                        <p>Sign in to view station details, live levels, and wait times.</p>
-                        <div class="login-options">
-                            <button class="login-btn google" onclick="signInWithGoogle()">
-                                <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                                Continue with Google
-                            </button>
-                            <button class="login-btn email" onclick="showEmailLoginForm()">Continue with Email</button>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // Show full detail (mock data for now - would come from DB)
-                const level = dbData.level || 'N/A';
-                const barrels = dbData.barrels || 'N/A';
-                const status = dbData.status || 'unknown';
-                const waitTime = station.waitTime || 'No wait';
-                
-                // Mock history data (would fetch from station_status_history)
-                const history3Day = [65, 72, 68, 55, 70, 64, 56];
-                const history7Day = [60, 55, 70, 75, 68, 72, 65, 70, 55, 62, 68, 71, 64, 56];
-                
-                body.innerHTML = `
-                    <div class="detail-section">
-                        <h3>Current Status</h3>
-                        <div class="detail-row">
-                            <span class="detail-label">Level</span>
-                            <span class="detail-value">${level} ft</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Barrels Available</span>
-                            <span class="detail-value">${barrels}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Status</span>
-                            <span class="detail-value status-${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Wait Time</span>
-                            <span class="detail-value wait-time">${waitTime}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <h3>Last 3 Days</h3>
-                        <div class="history-chart">
-                            <div class="chart-bars">
-                                ${history3Day.map(v => `<div class="chart-bar" style="height:${v}%" data-value="${v}%"></div>`).join('')}
-                            </div>
-                            <div class="chart-labels">
-                                <span>3d ago</span><span>2d ago</span><span>Yesterday</span><span>Today</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <h3>Last 7 Days</h3>
-                        <div class="history-chart">
-                            <div class="chart-bars">
-                                ${history7Day.map(v => `<div class="chart-bar" style="height:${v}%" data-value="${v}%"></div>`).join('')}
-                            </div>
-                            <div class="chart-labels">
-                                <span>7d</span><span>6d</span><span>5d</span><span>4d</span><span>3d</span><span>2d</span><span>1d</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <a href="${directionsUrl}" target="_blank" class="directions-btn">Get Directions</a>
-                    </div>
-                `;
-            }
-            
-            modal.classList.add('open');
-        }
-        
-        function closeDetailModal() {
-            document.getElementById('detailModal').classList.remove('open');
-        }
-        
-        let showingSignup = false;
-        
-        function showEmailLoginForm() {
-            const body = document.getElementById('detailBody');
-            body.innerHTML = `
-                <div class="login-prompt">
-                    <p>${showingSignup ? 'Create your account' : 'Sign in to your account'}</p>
-                    <div class="email-login-form">
-                        <input type="email" id="loginEmail" placeholder="Email">
-                        <input type="password" id="loginPassword" placeholder="Password">
-                        <button onclick="${showingSignup ? 'handleEmailSignup()' : 'handleEmailLogin()'}">
-                            ${showingSignup ? 'Create Account' : 'Sign In'}
-                        </button>
-                    </div>
-                    <div class="create-account-link">
-                        ${showingSignup ? '<a onclick="showEmailLoginForm()">Already have an account? Sign In</a>' : '<a onclick="showSignupForm()">Don\'t have an account? Create one</a>'}
-                    </div>
-                </div>
-            `;
-        }
-        
-        function showSignupForm() {
-            showingSignup = true;
-            showEmailLoginForm();
-        }
-        
-        function handleEmailLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            if (!email || !password) {
-                alert('Please enter email and password');
-                return;
-            }
-            signInWithEmail(email, password);
-        }
-        
-        function handleEmailSignup() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            if (!email || !password) {
-                alert('Please enter email and password');
-                return;
-            }
-            if (password.length < 6) {
-                alert('Password must be at least 6 characters');
-                return;
-            }
-            initAuth();
-            if (supabase) {
-                supabase.auth.signUp({ email, password })
-                    .then(({ error }) => {
-                        if (error) {
-                            alert('Sign up error: ' + error.message);
-                        } else {
-                            alert('Check your email to confirm your account!');
-                            showingSignup = false;
-                            showEmailLoginForm();
-                        }
-                    });
-            }
-        }
-        
-        // Close modal on outside click
-        document.getElementById('detailModal').addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                closeDetailModal();
-            }
-        });
     </script>
 </body>
 </html>
