@@ -854,14 +854,19 @@
         }
 
         function renderStations() {
-            // Debug: show station count
             const list = document.getElementById('stationList');
             list.innerHTML = '';
             if (!stations) {
                 list.innerHTML = '<div style="padding:10px;color:#f00;">Error: stations data not found</div>';
                 return;
             }
-            list.innerHTML = '<div style="padding:10px;color:#888;">Stations array has ' + stations.length + ' items</div>';
+            
+            // Show we're starting
+            const startDiv = document.createElement('div');
+            startDiv.style.padding = '10px';
+            startDiv.style.color = '#888';
+            startDiv.textContent = 'Rendering ' + stations.length + ' stations...';
+            list.appendChild(startDiv);
             
             // Clear existing markers
             markers.forEach(m => map.removeLayer(m));
@@ -885,6 +890,9 @@
                 const marker = createMarker(station);
                 marker.addTo(map);
                 markers.push(marker);
+                
+                // Debug: show each station
+                console.log('Adding station:', station.name);
                 
                 // Add to sidebar
                 const card = document.createElement('div');
