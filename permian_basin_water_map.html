@@ -997,6 +997,8 @@
             fetch(API_URL + '/rest/v1/stations?select=id,name,type,county,state,lat,lng,notes,level,status,has_water&not(lat,is.null)', {
                 headers: { 'apikey': API_KEY, 'Authorization': 'Bearer ' + API_KEY }
             }).then(r => r.json()).then(data => {
+                // Use database data as main stations array
+                stations = data;
                 data.forEach(s => dbStations[s.name] = s);
                 updateStats(data);
                 renderStations();
