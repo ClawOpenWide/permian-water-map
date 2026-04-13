@@ -854,9 +854,13 @@
         }
 
         function renderStations() {
-            console.log('renderStations called, stations.length:', stations ? stations.length : 'undefined');
+            // Debug: show error on screen if stations not found
             const list = document.getElementById('stationList');
             list.innerHTML = '';
+            if (!stations) {
+                list.innerHTML = '<div style="padding:10px;color:#f00;">Error: stations data not found</div>';
+                return;
+            }
             
             // Clear existing markers
             markers.forEach(m => map.removeLayer(m));
