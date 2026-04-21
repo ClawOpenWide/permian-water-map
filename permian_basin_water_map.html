@@ -936,6 +936,12 @@
         // Initial render
         renderStations();
         
+        // Station detail modal function - placeholder until second script loads
+        window.openStationDetail = function(station, dbData) {
+            // Will be replaced by real implementation
+            alert('Details for: ' + station.name);
+        };
+        
         // Initialize auth (lazy, won't break page)
         // initAuth is called on first login attempt
     </script>
