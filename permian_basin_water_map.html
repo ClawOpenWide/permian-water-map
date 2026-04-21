@@ -139,6 +139,9 @@
         .history-toggle-btn.active { background: #4ade80; color: #000; border-color: #4ade80; }
         .history-section { display: none; }
         .history-section.active { display: block; }
+        .chart-container { background: #0f3460; border-radius: 6px; padding: 10px; margin: 10px 0; }
+        .line-chart { width: 100%; height: 80px; }
+        .chart-labels { display: flex; justify-content: space-between; font-size: 0.65rem; color: #666; margin-top: 4px; padding: 0 10px; }
     </style>
 </head>
 <body>
@@ -953,13 +956,37 @@
             const level = dbData?.level || 'N/A';
             const status = dbData?.status || 'Unknown';
             
+            // Mock history data for visualization
+            const history3Day = [65, 72, 68, 55];
+            const history7Day = [60, 55, 70, 75, 68, 72, 65];
+            
             body.innerHTML = '<div class="detail-section"><h3>Current Status</h3>' +
                 '<div class="detail-row"><span class="detail-label">Level</span><span class="detail-value">' + level + ' ft</span></div>' +
                 '<div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">' + status + '</span></div></div>' +
+                '<div class="detail-section"><button class="history-toggle-btn active" id="btn3day" onclick="showGraph(\'3day\')">See History</button>' +
+                '<div id="graph3day" class="history-section active"><h3>Last 3 Days</h3>' +
+                '<div class="chart-container"><svg viewBox="0 0 300 100" class="line-chart">' +
+                '<polyline fill="none" stroke="#4ade80" stroke-width="2" points="' + history3Day.map((v,i) => (i*80+20) + ',' + (100-v)).join(' ') + '"/></svg></div>' +
+                '<div class="chart-labels"><span>3d</span><span>2d</span><span>1d</span><span>Now</span></div></div>' +
+                '<button class="history-toggle-btn" id="btn7day" onclick="showGraph(\'7day\')">7 Day View</button>' +
+                '<div id="graph7day" class="history-section"><h3>Last 7 Days</h3>' +
+                '<div class="chart-container"><svg viewBox="0 0 300 100" class="line-chart">' +
+                '<polyline fill="none" stroke="#4ade80" stroke-width="2" points="' + history7Day.map((v,i) => (i*40+20) + ',' + (100-v)).join(' ') + '"/></svg></div>' +
+                '<div class="chart-labels"><span>7d</span><span>6d</span><span>5d</span><span>4d</span><span>3d</span><span>2d</span><span>1d</span></div></div></div>' +
                 '<div class="detail-section"><a href="' + directionsUrl + '" class="directions-btn">Get Directions</a></div>';
             
             modal.classList.add('open');
         };
+        
+        // Show/hide graph functions
+        function showGraph(type) {
+            document.getElementById('graph3day').classList.remove('active');
+            document.getElementById('graph7day').classList.remove('active');
+            document.getElementById('btn3day').classList.remove('active');
+            document.getElementById('btn7day').classList.remove('active');
+            document.getElementById('graph' + type).classList.add('active');
+            document.getElementById('btn' + type).classList.add('active');
+        }
         
         // Initialize auth (lazy, won't break page)
         // initAuth is called on first login attempt
