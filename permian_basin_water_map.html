@@ -936,10 +936,24 @@
         // Initial render
         renderStations();
         
-        // Station detail modal function - placeholder until second script loads
+        // Station detail modal function
         window.openStationDetail = function(station, dbData) {
-            // Will be replaced by real implementation
-            alert('Details for: ' + station.name);
+            const modal = document.getElementById('detailModal');
+            const title = document.getElementById('detailTitle');
+            const body = document.getElementById('detailBody');
+            
+            title.textContent = station.name;
+            const directionsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + station.lat + ',' + station.lng;
+            
+            const level = dbData?.level || 'N/A';
+            const status = dbData?.status || 'Unknown';
+            
+            body.innerHTML = '<div class="detail-section"><h3>Current Status</h3>' +
+                '<div class="detail-row"><span class="detail-label">Level</span><span class="detail-value">' + level + ' ft</span></div>' +
+                '<div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">' + status + '</span></div></div>' +
+                '<div class="detail-section"><a href="' + directionsUrl + '" target="_blank" class="directions-btn">Get Directions</a></div>';
+            
+            modal.classList.add('open');
         };
         
         // Initialize auth (lazy, won't break page)
