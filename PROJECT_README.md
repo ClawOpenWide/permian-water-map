@@ -115,12 +115,20 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
 
 ## Known Issues / To Fix
 
-- **Menu shows both Sign In and Log Out** - should only show one based on auth state
-- **Sign In in menu doesn't open login modal** - onClick handler not working
-- **Tapping station cards doesn't open detail modal** - onClick handler not working
-- **Station detail modal not functioning** - needs debugging
+- (All previously reported issues have been resolved)
 
-## Recent Changes (2026-04-13)
+## Recent Changes (2026-04-21)
+
+- Fixed menu to show only Sign In or Log Out (not both)
+- Station card taps now open detail modal on mobile
+- Added station detail screen with:
+  - Current level and status
+  - 3 Day / 7 Day line graph toggle with animated pulsing dot
+  - Get Directions button (opens Google Maps app on mobile)
+- Set up hourly cron job to scrape Tall City Brine data and build history
+- Created scripts/sync_tall_city_brine.js for data sync
+
+## Previous Changes (2026-04-13)
 
 - Added login modal with Google and email options
 - Added "Sign In" to menu (should toggle to "Log Out" when authenticated)
