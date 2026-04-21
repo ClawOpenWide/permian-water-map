@@ -142,9 +142,8 @@
         </div>
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
         <div class="mobile-menu" id="mobileMenu">
-            <div class="mobile-menu-item" onclick="openLoginModal()">Sign In</div>
+            <div class="mobile-menu-item" id="authMenuItem" onclick="openLoginModal()">Sign In</div>
             <div class="mobile-menu-item" onclick="alert('Notifications coming soon')">Notifications</div>
-            <div class="mobile-menu-item" onclick="alert('Log out')">Log Out</div>
         </div>
     </div>
     
@@ -1153,7 +1152,7 @@
         }
         
         function updateMenuAuth() {
-            const signInItem = document.querySelector('.mobile-menu-item[onclick="openLoginModal()"]');
+            const signInItem = document.getElementById('authMenuItem');
             if (signInItem) {
                 if (currentUser) {
                     signInItem.textContent = 'Log Out';
