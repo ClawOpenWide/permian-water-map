@@ -911,8 +911,9 @@
                     <div class="station-notes">${station.notes}</div>
                     <div class="tap-hint">Tap for details</div>
                 `;
-                card.onclick = function() {
-                    alert('TAPPED: ' + station.name);
+                card.onclick = function(e) {
+                    e.stopPropagation();
+                    openStationDetail(station, dbData);
                 };
                 list.appendChild(card);
             });
