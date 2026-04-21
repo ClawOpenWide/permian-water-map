@@ -913,6 +913,7 @@
                 `;
                 card.onclick = function(e) {
                     e.stopPropagation();
+                    alert('Opening details for: ' + station.name);
                     openStationDetail(station, dbData);
                 };
                 list.appendChild(card);
