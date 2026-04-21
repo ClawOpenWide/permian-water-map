@@ -936,6 +936,11 @@
         // Initial render
         renderStations();
         
+        // Close modal function
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('open');
+        }
+        
         // Station detail modal function
         window.openStationDetail = function(station, dbData) {
             const modal = document.getElementById('detailModal');
