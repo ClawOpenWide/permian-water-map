@@ -912,12 +912,8 @@
                     <div class="tap-hint">Tap for details</div>
                 `;
                 card.addEventListener('click', function() {
-                    alert('CLICK: ' + station.name);
-                    if (typeof window.openStationDetail === 'function') {
-                        window.openStationDetail(station, dbData);
-                    } else {
-                        alert('openStationDetail not found');
-                    }
+                    alert('CLICK: ' + station.name + ' - ready=' + (typeof window.openStationDetail === 'function'));
+                    window.openStationDetail(station, dbData);
                 });
                 list.appendChild(card);
             });
