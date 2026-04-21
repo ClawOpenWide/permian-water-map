@@ -911,10 +911,8 @@
                     <div class="station-notes">${station.notes}</div>
                     <div class="tap-hint">Tap for details</div>
                 `;
-                card.onclick = function(e) {
-                    e.stopPropagation();
-                    alert('Opening details for: ' + station.name);
-                    openStationDetail(station, dbData);
+                card.onclick = function() {
+                    alert('TAPPED: ' + station.name);
                 };
                 list.appendChild(card);
             });
