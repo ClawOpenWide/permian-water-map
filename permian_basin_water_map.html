@@ -901,20 +901,21 @@
                 
                 // Add to sidebar
                 const dbData = (typeof dbStations !== 'undefined' ? dbStations : {})[station.name] || {};
-                // Store station data in global object for reliable click handling
-                const stationId = 'station_' + station.name.replace(/[^a-zA-Z0-9]/g, '_');
-                window[stationId] = { station: station, dbData: dbData };
-                const cardHtml = `
-                    <div class="station-card ${station.type.toLowerCase().replace(/\s+/g, '-')}">
-                        <span class="station-type ${station.type.toLowerCase().replace(/\s+/g, '-')}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
-                        <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
-                        <div class="station-name">${station.name}</div>
-                        <div class="station-location">${station.county}, ${station.state}</div>
-                        <div class="station-notes">${station.notes}</div>
-                        <div class="tap-hint" onclick="openStationDetail(window['${stationId}'].station, window['${stationId}'].dbData)" style="cursor:pointer">Tap for details</div>
-                    </div>
+                const card = document.createElement('div');
+                card.className = 'station-card ' + station.type.toLowerCase().replace(/\s+/g, '-');
+                card.innerHTML = `
+                    <span class="station-type ${station.type.toLowerCase().replace(/\s+/g, '-')}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
+                    <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
+                    <div class="station-name">${station.name}</div>
+                    <div class="station-location">${station.county}, ${station.state}</div>
+                    <div class="station-notes">${station.notes}</div>
+                    <div class="tap-hint">Tap for details</div>
                 `;
-                list.insertAdjacentHTML('beforeend', cardHtml);
+                card.onclick = function(e) {
+                    e.stopPropagation();
+                    openStationDetail(station, dbData);
+                };
+                list.appendChild(card);
             });
             } catch(e) {
                 console.log('Error rendering stations:', e);
