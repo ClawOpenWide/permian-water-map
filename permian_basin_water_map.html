@@ -913,7 +913,12 @@
                 `;
                 card.onclick = function(e) {
                     e.stopPropagation();
-                    openStationDetail(station, dbData);
+                    alert('TAPPED: ' + station.name + ' - calling openStationDetail');
+                    try {
+                        openStationDetail(station, dbData);
+                    } catch(err) {
+                        alert('Error: ' + err.message);
+                    }
                 };
                 list.appendChild(card);
             });
