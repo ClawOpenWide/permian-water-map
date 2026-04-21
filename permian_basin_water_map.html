@@ -911,15 +911,9 @@
                     <div class="station-notes">${station.notes}</div>
                     <div class="tap-hint">Tap for details</div>
                 `;
-                card.onclick = function(e) {
-                    e.stopPropagation();
-                    alert('TAPPED: ' + station.name + ' - calling openStationDetail');
-                    try {
-                        openStationDetail(station, dbData);
-                    } catch(err) {
-                        alert('Error: ' + err.message);
-                    }
-                };
+                card.addEventListener('click', function() {
+                    alert('CLICK: ' + station.name);
+                });
                 list.appendChild(card);
             });
             } catch(e) {
