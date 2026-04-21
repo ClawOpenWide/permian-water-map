@@ -943,7 +943,7 @@
             const body = document.getElementById('detailBody');
             
             title.textContent = station.name;
-            const directionsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + station.lat + ',' + station.lng;
+            const directionsUrl = 'https://www.google.com/maps?daddr=' + station.lat + ',' + station.lng;
             
             const level = dbData?.level || 'N/A';
             const status = dbData?.status || 'Unknown';
