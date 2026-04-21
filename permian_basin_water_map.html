@@ -132,6 +132,13 @@
         .email-login-form button { padding: 12px; border-radius: 6px; border: none; background: #4ade80; color: #000; font-weight: bold; cursor: pointer; }
         .create-account-link { text-align: center; margin-top: 12px; font-size: 0.85rem; }
         .create-account-link a { color: #00d9ff; cursor: pointer; text-decoration: underline; }
+        
+        /* History toggle buttons */
+        .history-toggle { display: flex; gap: 8px; margin-bottom: 10px; }
+        .history-toggle-btn { flex: 1; padding: 10px; border: 1px solid #444; background: #0f3460; color: #aaa; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .history-toggle-btn.active { background: #4ade80; color: #000; border-color: #4ade80; }
+        .history-section { display: none; }
+        .history-section.active { display: block; }
     </style>
 </head>
 <body>
@@ -893,21 +900,20 @@
                 markers.push(marker);
                 
                 // Add to sidebar
-                const card = document.createElement('div');
-                const typeClass = station.type.toLowerCase().replace(/\s+/g, '-');
-                card.className = `station-card ${typeClass}`;
-                card.innerHTML = `
-                    <span class="station-type ${typeClass}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
-                    <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
-                    <div class="station-name">${station.name}</div>
-                    <div class="station-location">${station.county}, ${station.state}</div>
-                    <div class="station-coords">${station.lat.toFixed(4)}, ${station.lng.toFixed(4)}</div>
-                    <div class="station-notes">${station.notes}</div>
-                    <div class="tap-hint">Tap for details</div>
-                `;
                 const dbData = (typeof dbStations !== 'undefined' ? dbStations : {})[station.name] || {};
-                card.onclick = () => openStationDetail(station, dbData);
-                list.appendChild(card);
+                const stationJson = encodeURIComponent(JSON.stringify(station));
+                const dbDataJson = encodeURIComponent(JSON.stringify(dbData));
+                const cardHtml = `
+                    <div class="station-card ${station.type.toLowerCase().replace(/\s+/g, '-')}">
+                        <span class="station-type ${station.type.toLowerCase().replace(/\s+/g, '-')}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
+                        <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
+                        <div class="station-name">${station.name}</div>
+                        <div class="station-location">${station.county}, ${station.state}</div>
+                        <div class="station-notes">${station.notes}</div>
+                        <div class="tap-hint" onclick="openStationDetail(JSON.parse(decodeURIComponent('${stationJson}')), JSON.parse(decodeURIComponent('${dbDataJson}')))" style="cursor:pointer">Tap for details</div>
+                    </div>
+                `;
+                list.insertAdjacentHTML('beforeend', cardHtml);
             });
             } catch(e) {
                 console.log('Error rendering stations:', e);
@@ -1076,7 +1082,7 @@
                 const status = dbData.status || 'unknown';
                 const waitTime = 'No wait';
                 
-                body.innerHTML = '<div class="detail-section"><h3>Current Status</h3><div class="detail-row"><span class="detail-label">Level</span><span class="detail-value">' + level + ' ft</span></div><div class="detail-row"><span class="detail-label">Barrels</span><span class="detail-value">' + barrels + '</span></div><div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span></div><div class="detail-row"><span class="detail-label">Wait</span><span class="detail-value wait-time">' + waitTime + '</span></div></div><div class="detail-section"><h3>Last 3 Days</h3><div class="history-chart"><div class="chart-bars">' + history3Day.map(v => '<div class="chart-bar" style="height:' + (v || 0) + '%" data-value="' + (v ? v.toFixed(0) + '%' : 'N/A') + '"></div>').join('') + '</div><div class="chart-labels"><span>3d</span><span>2d</span><span>1d</span><span>Now</span></div></div></div><div class="detail-section"><h3>Last 7 Days</h3><div class="history-chart"><div class="chart-bars">' + history7Day.map(v => '<div class="chart-bar" style="height:' + (v || 0) + '%" data-value="' + (v ? v.toFixed(0) + '%' : 'N/A') + '"></div>').join('') + '</div><div class="chart-labels"><span>7d</span><span>6d</span><span>5d</span><span>4d</span><span>3d</span><span>2d</span><span>1d</span></div></div></div><div class="detail-section"><a href="' + directionsUrl + '" target="_blank" class="directions-btn">Get Directions</a></div>';
+                body.innerHTML = '<div class="detail-section"><h3>Current Status</h3><div class="detail-row"><span class="detail-label">Level</span><span class="detail-value">' + level + ' ft</span></div><div class="detail-row"><span class="detail-label">Barrels</span><span class="detail-value">' + barrels + '</span></div><div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span></div><div class="detail-row"><span class="detail-label">Wait</span><span class="detail-value wait-time">' + waitTime + '</span></div></div><div class="detail-section"><button class="history-toggle-btn active" onclick="showHistory(\'3day\', this)">See History</button><div id="history3day" class="history-section active"><h3>Last 3 Days</h3><div class="history-chart"><div class="chart-bars">' + history3Day.map(v => '<div class="chart-bar" style="height:' + (v || 0) + '%" data-value="' + (v ? v.toFixed(0) + '%' : 'N/A') + '"></div>').join('') + '</div><div class="chart-labels"><span>3d</span><span>2d</span><span>1d</span><span>Now</span></div></div><button class="history-toggle-btn" onclick="showHistory(\'7day\', this)">7 Day View</button></div><div id="history7day" class="history-section"><h3>Last 7 Days</h3><div class="history-chart"><div class="chart-bars">' + history7Day.map(v => '<div class="chart-bar" style="height:' + (v || 0) + '%" data-value="' + (v ? v.toFixed(0) + '%' : 'N/A') + '"></div>').join('') + '</div><div class="chart-labels"><span>7d</span><span>6d</span><span>5d</span><span>4d</span><span>3d</span><span>2d</span><span>1d</span></div></div></div></div><div class="detail-section"><a href="' + directionsUrl + '" target="_blank" class="directions-btn">Get Directions</a></div>';
             }
             
             modal.classList.add('open');
@@ -1084,6 +1090,16 @@
         
         function closeDetailModal() {
             document.getElementById('detailModal').classList.remove('open');
+        }
+        
+        function showHistory(type, btn) {
+            // Hide all sections
+            document.querySelectorAll('.history-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.history-toggle-btn').forEach(b => b.classList.remove('active'));
+            
+            // Show selected
+            document.getElementById('history' + type).classList.add('active');
+            btn.classList.add('active');
         }
         
         function openLoginModal() {
