@@ -8,19 +8,24 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const STATION_MAP = {
   'South Midland': { id: 'dd63da37-fa63-4b1d-a9e5-a9cc84fe4312', name: 'Tall City Brine - South Midland' },
   'Big Spring': { id: '9196e169-084f-4bf4-be37-32bda675c5f1', name: 'Tall City Brine - Big Spring' },
-  'Denver City': { id: 'c622b9ec-816b-4891-9a10-5e0ccc7e92ed', name: 'Tall City Brine - Denver City' },
-  'Kermit': { id: '2878ea6a-ce0b-449a-a2ac-d8d0a344574a', name: 'Tall City Brine - Kermit' },
-  'Levelland': { id: '5d0c1a63-ad3a-4db8-9e1a-874ffe6fad36', name: 'Tall City Brine - Levelland' },
-  'Stanton': { id: '923fb50a-438b-49ca-9f3d-6388d3b311e4', name: 'Tall City Brine - Stanton' }
+  '1450': { id: 'f332fe6e-8550-4478-ada5-a13e0e7736d7', name: 'Tall City Brine - 1450 (Pecos)' },
+  '1492': { id: '3b1ad555-7811-4b1c-be2a-6537b2f78733', name: 'Tall City Brine - 1492 (Upton Co)' },
+  'JBS': { id: 'cebb53fa-d7de-429e-88d6-4db7609f9982', name: 'Tall City Brine - JBS (338)' },
+  'Knott': { id: '6be2518b-e4fc-42dd-a2d7-118e8f2a1c60', name: 'Tall City Brine - Knott' },
+  'Midkiff': { id: '7410e1d5-b2d5-46aa-9f88-7dddc26cc536', name: 'Tall City Brine - Midkiff' },
+  'North Odessa': { id: '5c79993e-2815-4370-bcd9-b1aeb4f83dd8', name: 'Tall City Brine - North Odessa' }
 };
 
+// All working TC Brine pages (8 total)
 const STATIONS = [
   { name: 'South Midland', page: 'southmidlandlevels.php' },
   { name: 'Big Spring', page: 'bigspringlevels.php' },
-  { name: 'Denver City', page: 'denvercitylevels.php' },
-  { name: 'Kermit', page: 'kermitlevels.php' },
-  { name: 'Levelland', page: 'levellandlevels.php' },
-  { name: 'Stanton', page: 'stantonlevels.php' }
+  { name: '1450', page: '1450levels.php' },
+  { name: '1492', page: '1492levels.php' },
+  { name: 'JBS', page: 'jbslevels.php' },
+  { name: 'Knott', page: 'knottlevels.php' },
+  { name: 'Midkiff', page: 'midkifflevels.php' },
+  { name: 'North Odessa', page: 'northodessalevels.php' }
 ];
 
 const BASE_URL = 'https://tcbrine.com';
@@ -75,8 +80,6 @@ async function recordHistory(stationId, data) {
   const record = {
     station_id: stationId,
     level: data.level,
-    barrels: data.barrels,
-    percent: data.percent,
     status: data.percent > 0 ? 'open' : 'closed',
     recorded_at: new Date().toISOString()
   };
