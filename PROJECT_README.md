@@ -39,7 +39,7 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
 
 2. **Station Management**
    - Display map with all water infrastructure locations
-   - Station types: Non-Potable Water, Fresh Water, Brine, SWD, Water Hauler
+   - Station types: Non-Potable Water, Fresh Water, Brine, SWD
    - Add new station listing (user-submitted)
    - Manual data input for non-automated stations
 
@@ -97,7 +97,6 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
   - Fresh Water: 1
   - Brine: 6
   - SWD: 15
-  - Water Hauler: 4
 
 - [x] **Database Integration** - Using native fetch API:
   - Stats update from database after page loads
@@ -109,8 +108,7 @@ Mobile-first web application for tracking water infrastructure in the Permian Ba
 - [x] **Tall City Brine Integration** - Live data from tcbrine.com:
   - Web scraper fetches tank levels (feet, barrels, %)
   - Sync script updates Supabase database every run
-  - Displays live levels in map popups and station cards
-  - 28 stations tracked, 6 have coordinates in database
+  - 28 stations tracked, 20+ have GPS coordinates, water availability, and location descriptions in database
   - Created scrape_tall_city_brine.js and sync_tall_city_brine.js
 
 ## Known Issues / To Fix
