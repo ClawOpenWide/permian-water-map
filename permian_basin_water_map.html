@@ -154,7 +154,7 @@
     <div class="header">
         <div>
             <h1>Permian Basin Water Infrastructure</h1>
-            <p>Non-Potable Water Stations, Brine Stations, SWDs & Water Haulers (TX + NM)</p>
+            <p>Non-Potable Water Stations, Brine Stations & SWDs (TX + NM)</p>
         </div>
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
         <div class="mobile-menu" id="mobileMenu">
@@ -172,7 +172,7 @@
             <div class="stats">
                 <div class="stat"><div class="stat-num">16</div><div class="stat-label">Water Stations</div></div>
                 <div class="stat"><div class="stat-num">26</div><div class="stat-label">Brine Points</div></div>
-                <div class="stat"><div class="stat-num">24</div><div class="stat-label">SWDs/Companies</div></div>
+                <div class="stat"><div class="stat-num">48</div><div class="stat-label">SWDs</div></div>
             </div>
             <div class="filter-row">
                 <button class="filter-btn active" onclick="filterStations('all')">All</button>
@@ -189,7 +189,7 @@
                     <div class="legend-item"><div class="legend-dot" style="background:#00d9ff"></div>Fresh Water</div>
                     <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Brine</div>
                     <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>SWD Company</div>
-                    <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div>Water Hauler</div>
+                    
                 </div>
             </div>
         </div>
@@ -220,602 +220,96 @@
         }, 2000);
 
         // Station data - Updated with New Mexico
-        const stations = [
-        {
-                "name": "Chaparral - Blk 12",
-                "type": "Non-Potable Water",
-                "county": "Andrews",
-                "state": "TX",
-                "lat": 32.30475,
-                "lng": -102.594056,
-                "notes": "On FM 2371 near Hwy 115"
-        },
-        {
-                "name": "Chaparral - Goldsmith",
-                "type": "Non-Potable Water",
-                "county": "Ector",
-                "state": "TX",
-                "lat": 31.982858,
-                "lng": -102.606529,
-                "notes": "1 mi E of FM 866 on Hwy 158"
-        },
-        {
-                "name": "Chaparral - FM 2885",
-                "type": "Non-Potable Water",
-                "county": "Gaines",
-                "state": "TX",
-                "lat": 32.570632,
-                "lng": -102.684199,
-                "notes": "500 yds W of FM 307 on FM 2885"
-        },
-        {
-                "name": "Chaparral - 2401 Crossroads",
-                "type": "Non-Potable Water",
-                "county": "Glasscock",
-                "state": "TX",
-                "lat": 31.654624,
-                "lng": -101.743533,
-                "notes": "Intersection FM 2401 & FM 1357"
-        },
-        {
-                "name": "Chaparral - 5 Points",
-                "type": "Non-Potable Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.967549,
-                "lng": -102.02481,
-                "notes": "1-1/4 mi W of Hwy 158 on CR 120"
-        },
-        {
-                "name": "Chaparral - Crazy Corners",
-                "type": "Non-Potable Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.818557,
-                "lng": -101.793621,
-                "notes": "7 mi S of Hwy 158 on FM 1379"
-        },
-        {
-                "name": "Chaparral - E Windham",
-                "type": "Non-Potable Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.771245,
-                "lng": -102.026554,
-                "notes": "4 mi N of FM 1787 on Hwy 349"
-        },
-        {
-                "name": "Chaparral - FM 715",
-                "type": "Non-Potable Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.908435,
-                "lng": -102.018229,
-                "notes": "Intersection FM 715 & FM 1213"
-        },
-        {
-                "name": "Chaparral - Gun Club",
-                "type": "Non-Potable Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.929803,
-                "lng": -101.989431,
-                "notes": "Intersection FM 1213 & CR 150"
-        },
-        {
-                "name": "Chaparral - S Hwy 349",
-                "type": "Non-Potable Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.902685,
-                "lng": -102.051754,
-                "notes": "1/4 mi N of FM 1213 and Hwy 349"
-        },
-        {
-                "name": "Chaparral - Windham",
-                "type": "Non-Potable Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.698422,
-                "lng": -102.077806,
-                "notes": "500 yds W of CR 1240 on FM 1787"
-        },
-        {
-                "name": "Chaparral - Hwy 137 Driver",
-                "type": "Non-Potable Water",
-                "county": "Reagan",
-                "state": "TX",
-                "lat": 31.628496,
-                "lng": -101.627165,
-                "notes": "3-1/2 mi S of FM 2401 on Hwy 137"
-        },
-        {
-                "name": "Chaparral - Giddings",
-                "type": "Non-Potable Water",
-                "county": "Upton",
-                "state": "TX",
-                "lat": 31.533966,
-                "lng": -101.951593,
-                "notes": "1/4 mi N of FM 2401 on Hwy 349"
-        },
-        {
-                "name": "Chaparral - North Rankin",
-                "type": "Non-Potable Water",
-                "county": "Upton",
-                "state": "TX",
-                "lat": 31.44712,
-                "lng": -101.937557,
-                "notes": "1/4 mi N of CR 111 on Hwy 349"
-        },
-        {
-                "name": "Chaparral - Pembrook",
-                "type": "Non-Potable Water",
-                "county": "Upton",
-                "state": "TX",
-                "lat": 31.480549,
-                "lng": -101.844807,
-                "notes": "1/4 mi W of FM 2594 on CR 112"
-        },
-        {
-                "name": "The Tap",
-                "type": "Fresh Water",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.99,
-                "lng": -102.08,
-                "notes": "3615 N County Rd 1150 - Industrial fresh water"
-        },
-        {
-                "name": "Tall City Brine - South Midland",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": 31.97,
-                "lng": -102.08,
-                "notes": "203 West Wall St - 24/7 service"
-        },
-        {
-                "name": "Tall City Brine - St Lawrence (137)",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Tarzan (176)",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Midland Co (1379)",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Pecos (1450)",
-                "type": "Brine",
-                "county": "Pecos",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Upton Co (1492)",
-                "type": "Brine",
-                "county": "Upton",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Barstow",
-                "type": "Brine",
-                "county": "Winkler",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Big Spring",
-                "type": "Brine",
-                "county": "Howard",
-                "state": "TX",
-                "lat": 32.25,
-                "lng": -101.47,
-                "notes": "Field location"
-        },
-        {
-                "name": "Tall City Brine - Coyanosa",
-                "type": "Brine",
-                "county": "Pecos",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Denver City",
-                "type": "Brine",
-                "county": "Gaines",
-                "state": "TX",
-                "lat": 32.97,
-                "lng": -102.82,
-                "notes": "Field location"
-        },
-        {
-                "name": "Tall City Brine - Garden City",
-                "type": "Brine",
-                "county": "Glasscock",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Grady",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Kermit",
-                "type": "Brine",
-                "county": "Winkler",
-                "state": "TX",
-                "lat": 31.81,
-                "lng": -103.09,
-                "notes": "Field location"
-        },
-        {
-                "name": "Tall City Brine - Knott",
-                "type": "Brine",
-                "county": "Howard",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Levelland",
-                "type": "Brine",
-                "county": "Hockley",
-                "state": "TX",
-                "lat": 33.62,
-                "lng": -102.35,
-                "notes": "Field location"
-        },
-        {
-                "name": "Tall City Brine - Midkiff",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - North Big Lake",
-                "type": "Brine",
-                "county": "Glasscock",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - North Odessa",
-                "type": "Brine",
-                "county": "Ector",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - North Pecos (285)",
-                "type": "Brine",
-                "county": "Pecos",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Orla",
-                "type": "Brine",
-                "county": "Reeves",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Patricia",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - South Pecos (17)",
-                "type": "Brine",
-                "county": "Pecos",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Spraberry",
-                "type": "Brine",
-                "county": "Midland",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - Stanton",
-                "type": "Brine",
-                "county": "Martin",
-                "state": "TX",
-                "lat": 32.13,
-                "lng": -101.79,
-                "notes": "Field location"
-        },
-        {
-                "name": "Tall City Brine - West Mentone",
-                "type": "Brine",
-                "county": "Pecos",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Tall City Brine - West Monahans",
-                "type": "Brine",
-                "county": "Winkler",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Field location code"
-        },
-        {
-                "name": "Velocity Water Solutions",
-                "type": "SWD",
-                "county": "Midland/Ector/Howard/Martin",
-                "state": "TX",
-                "lat": 31.95,
-                "lng": -102.05,
-                "notes": "18 SWDs in West Texas - operates 24/7"
-        },
-        {
-                "name": "Aris Water Solutions",
-                "type": "SWD",
-                "county": "Midland/Martin/Reagan",
-                "state": "TX",
-                "lat": 31.96,
-                "lng": -102.06,
-                "notes": "Leading produced water infrastructure Permian Basin"
-        },
-        {
-                "name": "Goodnight Midstream",
-                "type": "SWD",
-                "county": "Multiple Permian Counties",
-                "state": "TX",
-                "lat": 31.94,
-                "lng": -102.04,
-                "notes": "Extensive SWD network in West Texas"
-        },
-        {
-                "name": "NGL Energy Partners",
-                "type": "SWD",
-                "county": "Midland Basin",
-                "state": "TX",
-                "lat": 31.97,
-                "lng": -102.07,
-                "notes": "Water solutions midstream partner"
-        },
-        {
-                "name": "Aqua Terra Water Management",
-                "type": "SWD",
-                "county": "Permian Basin",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Full-service water disposal"
-        },
-        {
-                "name": "WaterBridge Operating",
-                "type": "SWD",
-                "county": "Midland/Martin/Reagan/Upton",
-                "state": "TX",
-                "lat": 31.6,
-                "lng": -101.6,
-                "notes": "Southern Delaware Basin water gathering/disposal"
-        },
-        {
-                "name": "H2O Midstream",
-                "type": "SWD",
-                "county": "Permian Basin",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Produced water gathering/disposal/recycling"
-        },
-        {
-                "name": "Enhanced Midstream",
-                "type": "SWD",
-                "county": "Permian Basin",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Water infrastructure integration"
-        },
-        {
-                "name": "Lagoon Water Midstream",
-                "type": "SWD",
-                "county": "Midland/Martin",
-                "state": "TX",
-                "lat": 32.1,
-                "lng": -101.8,
-                "notes": "100+ miles pipeline network - multiple SWDs"
-        },
-        {
-                "name": "Gravity Oilfield Services",
-                "type": "SWD",
-                "county": "Permian Basin",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Water solutions and infrastructure"
-        },
-        {
-                "name": "Pilot Water Solutions",
-                "type": "SWD",
-                "county": "Delaware Basin",
-                "state": "TX",
-                "lat": null,
-                "lng": null,
-                "notes": "Delaware Basin water midstream partner"
-        },
-        {
-                "name": "3 Bear Energy - Central Facility",
-                "type": "SWD",
-                "county": "Lea County",
-                "state": "NM",
-                "lat": 32.8,
-                "lng": -103.3,
-                "notes": "250,000 bbl impoundment pit & SWD"
-        },
-        {
-                "name": "3 Bear Energy - Cottonwood Water",
-                "type": "SWD",
-                "county": "Lea County",
-                "state": "NM",
-                "lat": 32.85,
-                "lng": -103.35,
-                "notes": "Two Devonian SWDs, 600,000 bbl recycled water storage"
-        },
-        {
-                "name": "Agave Transportation",
-                "type": "Water Hauler",
-                "county": "Carlsbad",
-                "state": "NM",
-                "lat": 32.42,
-                "lng": -104.23,
-                "notes": "Water hauling/vacuum trucking - Northern Delaware Basin"
-        },
-        {
-                "name": "All In Oilfield Services",
-                "type": "Water Hauler",
-                "county": "Carlsbad",
-                "state": "NM",
-                "lat": 32.42,
-                "lng": -104.23,
-                "notes": "1900 W Church Apt 5 - 575-236-6012"
-        },
-        {
-                "name": "Water Hauler - Various NM",
-                "type": "Water Hauler",
-                "county": "Hobbs/Carlsbad/Eunice/Jal",
-                "state": "NM",
-                "lat": 33.5,
-                "lng": -103.2,
-                "notes": "Multiple NM water haulers from EMNRD C-133 permit list"
-        },
-        {
-                "name": "Commercial Disposal - Eddy Co",
-                "type": "SWD",
-                "county": "Eddy County",
-                "state": "NM",
-                "lat": 32.5,
-                "lng": -104,
-                "notes": "Deep SWD permitted for high-volume injection"
-        },
-        {
-                "name": "Lea County SWD Facilities",
-                "type": "SWD",
-                "county": "Lea County",
-                "state": "NM",
-                "lat": 32.75,
-                "lng": -103.4,
-                "notes": "Multiple deep SWDs - 130+ permitted at 20,000 bbl/d+"
-        },
-        {
-                "name": "NM Oil Conservation Div - SWD",
-                "type": "SWD",
-                "county": "Various NM Counties",
-                "state": "NM",
-                "lat": 32.6,
-                "lng": -103.8,
-                "notes": "NM OCD permitted SWDs in Delaware Basin"
-        },
-        {
-                "name": "Water Processing LLC",
-                "type": "Water Hauler/Disposal",
-                "county": "Hobbs",
-                "state": "NM",
-                "lat": 33.4,
-                "lng": -103.3,
-                "notes": "575-393-9606 - Water services in Hobbs area"
-        },
-        {
-                "name": "Solaris Water Midstream",
-                "type": "SWD",
-                "county": "Carlsbad/Eddy",
-                "state": "NM",
-                "lat": 32.42,
-                "lng": -104.23,
-                "notes": "Houston-based, offices in Carlsbad NM - Delaware Basin operations"
-        },
-        {
-                "name": "Solaris Water - Vision Resources",
-                "type": "SWD",
-                "county": "Lea County",
-                "state": "NM",
-                "lat": 32.75,
-                "lng": -103.15,
-                "notes": "Acquired from Vision Resources - major NM expansion"
-        },
-        {
-                "name": "B3 Water Solutions NM",
-                "type": "SWD",
-                "county": "Permian Basin",
-                "state": "NM",
-                "lat": 32.6,
-                "lng": -103.8,
-                "notes": "Water balance reporting - 4.7M bbl/d reuse"
-        },
-        {
-                "name": "TETRA Technologies",
-                "type": "SWD",
-                "county": "Lea/Eddy",
-                "state": "NM",
-                "lat": 32.65,
-                "lng": -103.5,
-                "notes": "SwiftWater frac water services in Permian"
-        }
-];
+        const stations = [{"name": "Chaparral - Blk 12", "type": "Non-Potable Water", "lat": 32.30475, "lng": -102.594056, "county": "Andrews", "state": "TX", "notes": ""},
+                {"name": "Chaparral - Goldsmith", "type": "Non-Potable Water", "lat": 31.982858, "lng": -102.606529, "county": "Ector", "state": "TX", "notes": ""},
+                {"name": "Chaparral - FM 2885", "type": "Non-Potable Water", "lat": 32.570632, "lng": -102.684199, "county": "Gaines", "state": "TX", "notes": ""},
+                {"name": "Chaparral - 2401 Crossroads", "type": "Non-Potable Water", "lat": 31.654624, "lng": -101.743533, "county": "Glasscock", "state": "TX", "notes": ""},
+                {"name": "Chaparral - 5 Points", "type": "Non-Potable Water", "lat": 31.967549, "lng": -102.02481, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Chaparral - Crazy Corners", "type": "Non-Potable Water", "lat": 31.818557, "lng": -101.793621, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Chaparral - E Windham", "type": "Non-Potable Water", "lat": 31.771245, "lng": -102.026554, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Chaparral - FM 715", "type": "Non-Potable Water", "lat": 31.908435, "lng": -102.018229, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Chaparral - Gun Club", "type": "Non-Potable Water", "lat": 31.929803, "lng": -101.989431, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Chaparral - S Hwy 349", "type": "Non-Potable Water", "lat": 31.902685, "lng": -102.051754, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Chaparral - Windham", "type": "Non-Potable Water", "lat": 31.698422, "lng": -102.077806, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Chaparral - Hwy 137 Driver", "type": "Non-Potable Water", "lat": 31.628496, "lng": -101.627165, "county": "Reagan", "state": "TX", "notes": ""},
+                {"name": "Chaparral - Giddings", "type": "Non-Potable Water", "lat": 31.533966, "lng": -101.951593, "county": "Upton", "state": "TX", "notes": ""},
+                {"name": "Chaparral - North Rankin", "type": "Non-Potable Water", "lat": 31.44712, "lng": -101.937557, "county": "Upton", "state": "TX", "notes": ""},
+                {"name": "Chaparral - Pembrook", "type": "Non-Potable Water", "lat": 31.480549, "lng": -101.844807, "county": "Upton", "state": "TX", "notes": ""},
+                {"name": "The Tap", "type": "Fresh Water", "lat": 31.99, "lng": -102.08, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - South Midland", "type": "Brine", "lat": 31.96805, "lng": -102.0208, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - St Lawrence (137)", "type": "Brine", "lat": 31.76905, "lng": -101.64187, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Tarzan (176)", "type": "Brine", "lat": 32.309497, "lng": -102.04559, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Midland Co (1379)", "type": "Brine", "lat": 31.71142, "lng": -101.96083, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Pecos (1450)", "type": "Brine", "lat": 31.361534, "lng": -103.367266, "county": "Pecos", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Upton Co (1492)", "type": "Brine", "lat": 31.530871, "lng": -102.162126, "county": "Upton", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Barstow", "type": "Brine", "lat": 31.453569, "lng": -103.403182, "county": "Winkler", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Big Spring", "type": "Brine", "lat": 32.263583, "lng": -101.531556, "county": "Howard", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Coyanosa", "type": "Brine", "lat": 31.27582, "lng": -103.03915, "county": "Pecos", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Denver City", "type": "Brine", "lat": 33.022539, "lng": -102.863943, "county": "Gaines", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Garden City", "type": "Brine", "lat": 31.864023, "lng": -101.531559, "county": "Glasscock", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Grady", "type": "Brine", "lat": 32.3056729, "lng": -101.9449335, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Kermit", "type": "Brine", "lat": 31.833797, "lng": -103.138214, "county": "Winkler", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Knott", "type": "Brine", "lat": 32.407556, "lng": -101.623167, "county": "Howard", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Levelland", "type": "Brine", "lat": 33.543009, "lng": -102.485188, "county": "Hockley", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Midkiff", "type": "Brine", "lat": 31.464791, "lng": -101.934647, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - North Big Lake", "type": "Brine", "lat": 31.351568, "lng": -101.497535, "county": "Glasscock", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - North Odessa", "type": "Brine", "lat": 32.02321, "lng": -102.42897, "county": "Ector", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - North Pecos (285)", "type": "Brine", "lat": 31.361534, "lng": -103.367266, "county": "Pecos", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Orla", "type": "Brine", "lat": 31.882556, "lng": -103.951389, "county": "Reeves", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Patricia", "type": "Brine", "lat": 32.569844, "lng": -102.013327, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - South Pecos (17)", "type": "Brine", "lat": 31.361534, "lng": -103.367266, "county": "Pecos", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Spraberry", "type": "Brine", "lat": 31.92107, "lng": -101.819147, "county": "Midland", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - Stanton", "type": "Brine", "lat": 32.097058, "lng": -101.791931, "county": "Martin", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - West Mentone", "type": "Brine", "lat": 31.674283, "lng": -103.623406, "county": "Pecos", "state": "TX", "notes": ""},
+                {"name": "Tall City Brine - West Monahans", "type": "Brine", "lat": 31.576538, "lng": -102.95935, "county": "Winkler", "state": "TX", "notes": ""},
+                {"name": "Velocity Water Solutions", "type": "SWD", "lat": 31.95, "lng": -102.05, "county": "Midland/Ector/Howard/Martin", "state": "TX", "notes": ""},
+                {"name": "Aris Water Solutions", "type": "SWD", "lat": 31.96, "lng": -102.06, "county": "Midland/Martin/Reagan", "state": "TX", "notes": ""},
+                {"name": "Goodnight Midstream", "type": "SWD", "lat": 31.94, "lng": -102.04, "county": "Multiple Permian Counties", "state": "TX", "notes": ""},
+                {"name": "NGL Energy Partners", "type": "SWD", "lat": 31.97, "lng": -102.07, "county": "Midland Basin", "state": "TX", "notes": ""},
+                {"name": "Aqua Terra Water Management", "type": "SWD", "lat": null, "lng": null, "county": "Permian Basin", "state": "TX", "notes": ""},
+                {"name": "WaterBridge Operating", "type": "SWD", "lat": 31.6, "lng": -101.6, "county": "Midland/Martin/Reagan/Upton", "state": "TX", "notes": ""},
+                {"name": "H2O Midstream", "type": "SWD", "lat": null, "lng": null, "county": "Permian Basin", "state": "TX", "notes": ""},
+                {"name": "Enhanced Midstream", "type": "SWD", "lat": null, "lng": null, "county": "Permian Basin", "state": "TX", "notes": ""},
+                {"name": "Lagoon Water Midstream", "type": "SWD", "lat": 32.1, "lng": -101.8, "county": "Midland/Martin", "state": "TX", "notes": ""},
+                {"name": "Gravity Oilfield Services", "type": "SWD", "lat": null, "lng": null, "county": "Permian Basin", "state": "TX", "notes": ""},
+                {"name": "Pilot Water Solutions", "type": "SWD", "lat": null, "lng": null, "county": "Delaware Basin", "state": "TX", "notes": ""},
+                {"name": "3 Bear Energy - Central Facility", "type": "SWD", "lat": 32.8, "lng": -103.3, "county": "Lea County", "state": "NM", "notes": ""},
+                {"name": "3 Bear Energy - Cottonwood Water", "type": "SWD", "lat": 32.85, "lng": -103.35, "county": "Lea County", "state": "NM", "notes": ""},
+                {"name": "Commercial Disposal - Eddy Co", "type": "SWD", "lat": 32.5, "lng": -104, "county": "Eddy County", "state": "NM", "notes": ""},
+                {"name": "Lea County SWD Facilities", "type": "SWD", "lat": 32.75, "lng": -103.4, "county": "Lea County", "state": "NM", "notes": ""},
+                {"name": "NM Oil Conservation Div - SWD", "type": "SWD", "lat": 32.6, "lng": -103.8, "county": "Various NM Counties", "state": "NM", "notes": ""},
+                {"name": "Solaris Water Midstream", "type": "SWD", "lat": 32.42, "lng": -104.23, "county": "Carlsbad/Eddy", "state": "NM", "notes": ""},
+                {"name": "Solaris Water - Vision Resources", "type": "SWD", "lat": 32.75, "lng": -103.15, "county": "Lea County", "state": "NM", "notes": ""},
+                {"name": "B3 Water Solutions NM", "type": "SWD", "lat": 32.6, "lng": -103.8, "county": "Permian Basin", "state": "NM", "notes": ""},
+                {"name": "TETRA Technologies", "type": "SWD", "lat": 32.65, "lng": -103.5, "county": "Lea/Eddy", "state": "NM", "notes": ""},
+                {"name": "Bud SWD #1", "type": "SWD", "lat": 32.459128, "lng": -101.458497, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Andrea SWD", "type": "SWD", "lat": 31.885093, "lng": -103.946937, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Jones Ranch SWD #1", "type": "SWD", "lat": 31.733726, "lng": -103.60718, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Sievers SWD #1", "type": "SWD", "lat": 31.652613, "lng": -103.684875, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Ruby SWD #1", "type": "SWD", "lat": 32.3389548, "lng": -101.8774788, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Poncho SWD #1A", "type": "SWD", "lat": 31.7258885, "lng": -101.9507352, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Catseye SWD", "type": "SWD", "lat": 31.1805748, "lng": -103.068384, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Simpson SWD", "type": "SWD", "lat": 31.9934863, "lng": -104.0283851, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Cowbell SWD", "type": "SWD", "lat": 31.7806589, "lng": -103.3692364, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Roxy SWD", "type": "SWD", "lat": 31.5116541, "lng": -103.3745681, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "1450 SWD", "type": "SWD", "lat": 31.32446161, "lng": -103.2469007, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Twister SWD", "type": "SWD", "lat": 31.7733864, "lng": -103.845448, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Strube SWD", "type": "SWD", "lat": 31.5611134, "lng": -101.648357, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Pearl SWD", "type": "SWD", "lat": 31.5915579, "lng": -103.5956774, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Sweetwater SWD", "type": "SWD", "lat": 31.83364, "lng": -103.895354, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Margarita SWD", "type": "SWD", "lat": 31.69947038, "lng": -103.79529209, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Poncho SWD #1B", "type": "SWD", "lat": 31.72202415, "lng": -101.94944729, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Ruby SWD #2", "type": "SWD", "lat": 32.34472645, "lng": -101.87994082, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Bluebonnet SWD #1", "type": "SWD", "lat": 31.8632655, "lng": -102.0402576, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Dove Acres SWD", "type": "SWD", "lat": 31.9185243, "lng": -101.9777216, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Bella SWD", "type": "SWD", "lat": 32.11568, "lng": -101.87073, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Masked Rider SWD", "type": "SWD", "lat": 31.9183867, "lng": -103.9760722, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Ladybug SWD", "type": "SWD", "lat": 31.762393, "lng": -101.808857, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Jones Ranch SWD #2", "type": "SWD", "lat": 31.7325159, "lng": -103.6058038, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Mojo SWD", "type": "SWD", "lat": 32.1754524, "lng": -102.0139298, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Bluebonnet SWD #1B", "type": "SWD", "lat": 31.8614473, "lng": -102.0465438, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "Braden SWD", "type": "SWD", "lat": 31.6429504, "lng": -101.8059776, "county": "Various", "state": "TX", "notes": ""},
+                {"name": "McCombs SWD (Under Construction)", "type": "SWD", "lat": 31.9447779, "lng": -101.8727188, "county": "Various", "state": "TX", "notes": ""}];
 ;
 
         // Color mapping
@@ -824,9 +318,7 @@
             'Fresh Water': '#00d9ff',
             'Brine': '#4ade80',
             'SWD': '#ffd700',
-            'Water Hauler': '#f472b6',
-            'Water Hauler/Disposal': '#f472b6'
-        };
+                    };
 
         // Initialize map
         const map = L.map('map').setView([32.5, -103.5], 7);
@@ -889,7 +381,7 @@
                     if (currentFilter === 'water') return s.type === 'Non-Potable Water' || s.type === 'Fresh Water';
                     if (currentFilter === 'brine') return s.type === 'Brine';
                     if (currentFilter === 'swd') return s.type === 'SWD';
-                    if (currentFilter === 'hauler') return s.type === 'Water Hauler' || s.type === 'Water Hauler/Disposal';
+                    
                     return true;
                 });
             
