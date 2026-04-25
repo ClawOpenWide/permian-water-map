@@ -15,6 +15,7 @@
         .header h1 { font-size: 1.2rem; color: #fff; }
         .header p { display: none; }
         .menu-toggle { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 5px; }
+        .lang-toggle { background: none; border: 1px solid #444; color: #ccc; font-size: 0.75rem; padding: 6px 10px; border-radius: 4px; cursor: pointer; margin-right: 10px; }
         
         .container { display: flex; height: calc(100vh - 56px); }
         
@@ -151,11 +152,70 @@
     </style>
 </head>
 <body>
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                title: "Permian Basin Water Infrastructure",
+                subtitle: "Non-Potable Water Stations, Brine Stations & SWDs (TX + NM)",
+                filter_all: "All",
+                filter_water: "Water",
+                filter_brine: "Brine",
+                filter_swd: "SWD",
+                filter_hauler: "Hauler",
+                sidebar_header: "Water Infrastructure",
+                stat_water: "Water Stations",
+                stat_brine: "Brine Points",
+                stat_swd: "SWDs",
+                legend_title: "Legend",
+                legend_non_potable: "Non-Potable Water",
+                legend_fresh: "Fresh Water",
+                legend_brine: "Brine",
+                legend_swd: "SWD Company"
+            },
+            es: {
+                title: "Infraestructura de Agua del Cuenca del Pérmico",
+                subtitle: "Estaciones de Agua No Potable, Estaciones de Salmuera y SWDs (TX + NM)",
+                filter_all: "Todo",
+                filter_water: "Agua",
+                filter_brine: "Salmuera",
+                filter_swd: "SWD",
+                filter_hauler: "Transportista",
+                sidebar_header: "Infraestructura de Agua",
+                stat_water: "Estaciones de Agua",
+                stat_brine: "Puntos de Salmuera",
+                stat_swd: "SWDs",
+                legend_title: "Leyenda",
+                legend_non_potable: "Agua No Potable",
+                legend_fresh: "Agua Potable",
+                legend_brine: "Salmuera",
+                legend_swd: "Compañía SWD"
+            }
+        };
+        let currentLang = 'en';
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+        }
+        function toggleLanguage() {
+            currentLang = (currentLang === 'en') ? 'es' : 'en';
+            const btn = document.querySelector('.lang-toggle');
+            btn.textContent = (currentLang === 'en') ? 'ES' : 'EN';
+            applyTranslations();
+        }
+        // Apply initial translations (English)
+        applyTranslations();
+    </script>
     <div class="header">
         <div>
-            <h1>Permian Basin Water Infrastructure</h1>
-            <p>Non-Potable Water Stations, Brine Stations & SWDs (TX + NM)</p>
+            <h1 data-i18n="title">Permian Basin Water Infrastructure</h1>
+            <p data-i18n="subtitle">Non-Potable Water Stations, Brine Stations & SWDs (TX + NM)</p>
         </div>
+        <button class="lang-toggle" onclick="toggleLanguage()">ES</button>
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
         <div class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu-item" id="authMenuItem" onclick="openLoginModal()">Sign In</div>
@@ -167,28 +227,28 @@
         <div id="map"></div>
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>Water Infrastructure</h2>
+                <h2 data-i18n="sidebar_header">Water Infrastructure</h2>
             </div>
             <div class="stats">
-                <div class="stat"><div class="stat-num">16</div><div class="stat-label">Water Stations</div></div>
-                <div class="stat"><div class="stat-num">26</div><div class="stat-label">Brine Points</div></div>
-                <div class="stat"><div class="stat-num">48</div><div class="stat-label">SWDs</div></div>
+                <div class="stat"><div class="stat-num">16</div><div class="stat-label" data-i18n="stat_water">Water Stations</div></div>
+                <div class="stat"><div class="stat-num">26</div><div class="stat-label" data-i18n="stat_brine">Brine Points</div></div>
+                <div class="stat"><div class="stat-num">48</div><div class="stat-label" data-i18n="stat_swd">SWDs</div></div>
             </div>
             <div class="filter-row">
-                <button class="filter-btn active" onclick="filterStations('all')">All</button>
-                <button class="filter-btn" onclick="filterStations('water')">Water</button>
-                <button class="filter-btn" onclick="filterStations('brine')">Brine</button>
-                <button class="filter-btn" onclick="filterStations('swd')">SWD</button>
-                <button class="filter-btn" onclick="filterStations('hauler')">Hauler</button>
+                <button class="filter-btn active" data-i18n="filter_all" onclick="filterStations('all')">All</button>
+                <button class="filter-btn" data-i18n="filter_water" onclick="filterStations('water')">Water</button>
+                <button class="filter-btn" data-i18n="filter_brine" onclick="filterStations('brine')">Brine</button>
+                <button class="filter-btn" data-i18n="filter_swd" onclick="filterStations('swd')">SWD</button>
+                <button class="filter-btn" data-i18n="filter_hauler" onclick="filterStations('hauler')">Hauler</button>
             </div>
             <div class="station-list" id="stationList"></div>
             <div class="legend" id="legend">
-                <h3>Legend</h3>
+                <h3 data-i18n="legend_title">Legend</h3>
                 <div class="legend-items">
-                    <div class="legend-item"><div class="legend-dot" style="background:#e94560"></div>Non-Potable Water</div>
-                    <div class="legend-item"><div class="legend-dot" style="background:#00d9ff"></div>Fresh Water</div>
-                    <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Brine</div>
-                    <div class="legend-item"><div class="legend-dot" style="background:#ffd700"></div>SWD Company</div>
+                    <div class="legend-item" data-i18n="legend_non_potable"><div class="legend-dot" style="background:#e94560"></div>Non-Potable Water</div>
+                    <div class="legend-item" data-i18n="legend_fresh"><div class="legend-dot" style="background:#00d9ff"></div>Fresh Water</div>
+                    <div class="legend-item" data-i18n="legend_brine"><div class="legend-dot" style="background:#4ade80"></div>Brine</div>
+                    <div class="legend-item" data-i18n="legend_swd"><div class="legend-dot" style="background:#ffd700"></div>SWD Company</div>
                     
                 </div>
             </div>
