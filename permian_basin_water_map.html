@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permian Basin Water Infrastructure</title>
+    <title>Permian Basin Water Facilities</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Supabase loaded dynamically on login -->
@@ -156,7 +156,7 @@
         // Language translations
         const translations = {
             en: {
-                title: "Permian Basin Water Infrastructure",
+                title: "Permian Basin Water Facilities",
                 subtitle: "Non-Potable Water Stations, Brine Stations & SWDs (TX + NM)",
                 filter_all: "All",
                 filter_water: "Water",
@@ -174,7 +174,7 @@
                 legend_swd: "SWD Company"
             },
             es: {
-                title: "Infraestructura de Agua del Cuenca del Pérmico",
+                title: "Instalaciones de Agua del Cuenca del Pérmico",
                 subtitle: "Estaciones de Agua No Potable, Estaciones de Salmuera y SWDs (TX + NM)",
                 filter_all: "Todo",
                 filter_water: "Agua",
@@ -239,7 +239,7 @@
                 <button class="filter-btn" data-i18n="filter_water" onclick="filterStations('water')">Water</button>
                 <button class="filter-btn" data-i18n="filter_brine" onclick="filterStations('brine')">Brine</button>
                 <button class="filter-btn" data-i18n="filter_swd" onclick="filterStations('swd')">SWD</button>
-                <button class="filter-btn" data-i18n="filter_hauler" onclick="filterStations('hauler')">Hauler</button>
+                
             </div>
             <div class="station-list" id="stationList"></div>
             <div class="legend" id="legend">
