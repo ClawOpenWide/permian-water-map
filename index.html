@@ -792,6 +792,11 @@
             document.getElementById('listingCount').textContent = '(' + filtered.length + ' listings)';
             
             filtered.forEach(station => {
+                // Debug: log station count by type
+                if (station.type === 'SWD') {
+                    console.log('SWD station:', station.name);
+                }
+                
                 // Add to sidebar listing (all stations, even without coordinates)
                 const card = document.createElement('div');
                 let borderColor = '';
@@ -799,7 +804,7 @@
                 else if (currentFilter === 'brine') borderColor = 'border-left-color: #4ade80;';
                 else if (currentFilter === 'water') borderColor = 'border-left-color: #ccc;';
                 else if (currentFilter === 'swd') borderColor = 'border-left-color: #ffd700;';
-                const typeClass = station.type.toLowerCase().replace(/\s+/g, '-');
+                const typeClass = (station.type || 'unknown').toLowerCase().replace(/\s+/g, '-');
                 card.className = `station-card ${typeClass}`;
                 if (borderColor) card.style = borderColor;
                 card.innerHTML = `
