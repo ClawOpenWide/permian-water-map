@@ -172,8 +172,8 @@
             const filtered = currentFilter === 'all' ? stations : stations.filter(s => {
                 const d = (s.description||s.notes||'').toLowerCase();
                 if(currentFilter === 'water') return s.type === 'water';
-                if(currentFilter === 'fresh') return s.type === 'fresh' || d.includes('fresh');
-                if(currentFilter === 'brine') return s.type === 'brine' || d.includes('brine');
+                if(currentFilter === 'fresh') return s.type === 'fresh' || s.has_fresh === true;
+                if(currentFilter === 'brine') return s.type === 'brine' || s.has_brine === true;
                 if(currentFilter === 'swd') return s.type === 'swd';
                 return true;
             });
@@ -191,7 +191,10 @@
                 c.className = 'station-card '+(s.type||'brine').toLowerCase();
                 if(bc) c.style.cssText = bc;
                 const tn = s.type==='water' ? 'Non-Potable' : (s.type ? s.type.charAt(0).toUpperCase()+s.type.slice(1) : 'Brine');
-                c.innerHTML = '<span class="station-type '+(s.type||'brine').toLowerCase()+'">'+tn+'</span><span class="state-badge '+(s.state||'TX').toLowerCase()+'">'+(s.state||'TX')+'</span><div class="station-name">'+s.name+'</div><div class="station-location">'+(s.county||'')+', '+(s.state||'TX')+'</div><div class="station-notes">'+(s.description||s.notes||'')+'</div>';
+                let badges = '';
+if(s.has_brine) badges += '<span class="station-type brine">Brine</span>';
+if(s.has_fresh) badges += '<span class="station-type fresh">Fresh</span>';
+c.innerHTML = '<span class="station-type '+(s.type||'brine').toLowerCase()+'">'+tn+'</span><span class="state-badge '+(s.state||'TX').toLowerCase()+'">'+(s.state||'TX')+'</span><div class="station-name">'+s.name+'</div><div class="station-location">'+(s.county||'')+', '+(s.state||'TX')+'</div><div class="station-badges">'+badges+'</div>';
                 c.onclick = () => map.setView([s.lat, s.lng], 10);
                 document.getElementById('stationList').appendChild(c);
             });
