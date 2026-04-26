@@ -99,7 +99,7 @@
         <div id="map"></div>
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>Water Infrastructure</h2>
+                <h2>Water Infrastructure <span id="listingCount" style="font-size:0.8rem;color:#999;"></span></h2>
             </div>
             <div class="stats">
                 <div class="stat"><div class="stat-num">-</div><div class="stat-label">Water Stations</div></div>
@@ -787,6 +787,9 @@
                     if (currentFilter === 'swd') return s.type === 'SWD';
                     return true;
                 });
+            
+            // Update listing count display
+            document.getElementById('listingCount').textContent = '(' + filtered.length + ' listings)';
             
             filtered.forEach(station => {
                 // Add to sidebar listing (all stations, even without coordinates)
