@@ -831,12 +831,13 @@
             renderStations();
         }
 
-        // Update stats based on actual station counts
+        // Update stats based on actual station counts (only stations with coordinates)
         function updateStats() {
-            const waterCount = stations.filter(s => s.type === 'Non-Potable Water').length;
-            const freshCount = stations.filter(s => s.type === 'Fresh Water').length;
-            const brineCount = stations.filter(s => s.type === 'Brine').length;
-            const swdCount = stations.filter(s => s.type === 'SWD').length;
+            const withCoords = stations.filter(s => s.lat && s.lng);
+            const waterCount = withCoords.filter(s => s.type === 'Non-Potable Water').length;
+            const freshCount = withCoords.filter(s => s.type === 'Fresh Water').length;
+            const brineCount = withCoords.filter(s => s.type === 'Brine').length;
+            const swdCount = withCoords.filter(s => s.type === 'SWD').length;
             
             const waterTotal = waterCount + freshCount;
             const stats = document.querySelectorAll('.stat-num');
