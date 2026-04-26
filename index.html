@@ -109,7 +109,7 @@
             <div class="filter-row">
                 <button class="filter-btn active" onclick="filterStations('all')">All</button>
                 <button class="filter-btn" onclick="filterStations('water')">Water</button>
-                <button class="filter-btn" onclick="filterStations('brine')">Brine</button>
+                <button class="filter-btn" onclick="filterStations('brine')">Brine</button><button class="filter-btn" onclick="filterStations('fresh')">Fresh</button>
                 <button class="filter-btn" onclick="filterStations('swd')">SWD</button>
             </div>
             <div class="station-list" id="stationList"></div>
@@ -782,7 +782,8 @@
                 ? stations 
                 : stations.filter(s => {
                     if (currentFilter === 'water') return s.type === 'Non-Potable Water' || s.type === 'Fresh Water';
-                    if (currentFilter === 'brine') return s.type === 'Brine';
+                    if (currentFilter === 'brine') return s.type === 'Brine' || s.description && s.description.includes('Brine');
+                    if (currentFilter === 'fresh') return s.type === 'Fresh Water' || s.description && s.description.includes('Fresh');
                     if (currentFilter === 'swd') return s.type === 'SWD';
                     return true;
                 });
