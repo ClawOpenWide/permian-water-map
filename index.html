@@ -789,15 +789,7 @@
                 });
             
             filtered.forEach(station => {
-                // Skip stations without valid coordinates
-                if (!station.lat || !station.lng) return;
-                
-                // Add to map
-                const marker = createMarker(station);
-                marker.addTo(map);
-                markers.push(marker);
-                
-                // Add to sidebar
+                // Add to sidebar listing (all stations, even without coordinates)
                 const card = document.createElement('div');
                 let borderColor = '';
                 if (currentFilter === 'fresh') borderColor = 'border-left-color: #00d9ff;';
@@ -812,10 +804,17 @@
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
                     <div class="station-name">${station.name}</div>
                     <div class="station-location">${station.county}, ${station.state}</div>
-                    <div class="station-coords">${station.lat.toFixed(4)}, ${station.lng.toFixed(4)}</div>
+                    ${station.lat && station.lng ? '<div class="station-coords">' + station.lat.toFixed(4) + ', ' + station.lng.toFixed(4) + '</div>' : ''}
                     <div class="station-notes">${station.notes}</div>
                 `;
-                card.onclick = () => map.setView([station.lat, station.lng], 10);
+                
+                // Add map marker only if station has coordinates
+                if (station.lat && station.lng) {
+                    const marker = createMarker(station);
+                    marker.addTo(map);
+                    markers.push(marker);
+                    card.onclick = () => map.setView([station.lat, station.lng], 10);
+                }
                 list.appendChild(card);
             });
         }
@@ -831,13 +830,12 @@
             renderStations();
         }
 
-        // Update stats based on actual station counts (only stations with coordinates)
+        // Update stats based on actual station counts (matches listings)
         function updateStats() {
-            const withCoords = stations.filter(s => s.lat && s.lng);
-            const waterCount = withCoords.filter(s => s.type === 'Non-Potable Water').length;
-            const freshCount = withCoords.filter(s => s.type === 'Fresh Water').length;
-            const brineCount = withCoords.filter(s => s.type === 'Brine').length;
-            const swdCount = withCoords.filter(s => s.type === 'SWD').length;
+            const waterCount = stations.filter(s => s.type === 'Non-Potable Water').length;
+            const freshCount = stations.filter(s => s.type === 'Fresh Water').length;
+            const brineCount = stations.filter(s => s.type === 'Brine').length;
+            const swdCount = stations.filter(s => s.type === 'SWD').length;
             
             const waterTotal = waterCount + freshCount;
             const stats = document.querySelectorAll('.stat-num');
