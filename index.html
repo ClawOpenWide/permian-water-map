@@ -830,16 +830,30 @@
             renderStations();
         }
 
-        // Update stats based on actual station counts (matches listings)
+        // Update stats based on filter logic (matches listings)
         function updateStats() {
-            const waterCount = stations.filter(s => s.type === 'Non-Potable Water').length;
-            const freshCount = stations.filter(s => s.type === 'Fresh Water').length;
-            const brineCount = stations.filter(s => s.type === 'Brine').length;
+            // Water: Non-Potable + Fresh Water
+            const waterCount = stations.filter(s => s.type === 'Non-Potable Water' || s.type === 'Fresh Water').length;
+            
+            // Brine: type=Brine OR description/notes contains 'Brine'
+            const brineCount = stations.filter(s => 
+                s.type === 'Brine' || 
+                (s.description && s.description.includes('Brine')) ||
+                (s.notes && s.notes.includes('Brine'))
+            ).length;
+            
+            // Fresh: type=Fresh Water OR description/notes contains 'Fresh'
+            const freshCount = stations.filter(s => 
+                s.type === 'Fresh Water' ||
+                (s.description && s.description.includes('Fresh')) ||
+                (s.notes && s.notes.includes('Fresh'))
+            ).length;
+            
+            // SWD: type=SWD
             const swdCount = stations.filter(s => s.type === 'SWD').length;
             
-            const waterTotal = waterCount + freshCount;
             const stats = document.querySelectorAll('.stat-num');
-            if (stats[0]) stats[0].textContent = waterTotal;
+            if (stats[0]) stats[0].textContent = waterCount + freshCount;
             if (stats[1]) stats[1].textContent = brineCount;
             if (stats[2]) stats[2].textContent = swdCount;
         }
