@@ -788,9 +788,8 @@
                     return true;
                 });
             
-            // Debug: count by type
-            const swdCount = filtered.filter(s => s.type === 'SWD').length;
-            document.getElementById('listingCount').textContent = '(' + filtered.length + ' total, ' + swdCount + ' SWD)';
+            // Update listing count display
+            document.getElementById('listingCount').textContent = '(' + filtered.length + ')';
             
             filtered.forEach(station => {
                 // Add to sidebar listing (all stations, even without coordinates)
