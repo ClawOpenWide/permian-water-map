@@ -716,8 +716,14 @@
             return colors[type] || '#e94560';
         }
 
-        function createMarker(station) {
-            const color = getMarkerColor(station.type);
+        function createMarker(station, filter) {
+            // Use filter-based color when a filter is active
+            let color;
+            if (filter === 'fresh') color = '#00d9ff';
+            else if (filter === 'brine') color = '#4ade80';
+            else if (filter === 'water') color = '#e94560';
+            else if (filter === 'swd') color = '#ffd700';
+            else color = getMarkerColor(station.type);
             const markerHtml = `
                 <div style="background:${color};width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,0.5);"></div>
             `;
@@ -787,7 +793,7 @@
                 
                 // Add map marker only if station has coordinates
                 if (station.lat && station.lng) {
-                    const marker = createMarker(station);
+                    const marker = createMarker(station, currentFilter);
                     marker.addTo(map);
                     markers.push(marker);
                     card.onclick = () => map.setView([station.lat, station.lng], 10);
