@@ -21,11 +21,11 @@
         
         .sidebar { width: 380px; background: #16213e; overflow-y: auto; border-left: 1px solid #333; display: flex; flex-direction: column; }
         .sidebar-header { padding: 12px 15px; background: #0f3460; position: sticky; top: 0; z-index: 10; }
-        .sidebar-header h2 { font-size: 1rem; color: #e94560; }
+        .sidebar-header h2 { font-size: 1rem; color: #ccc; }
         .filter-row { display: flex; gap: 6px; padding: 10px 15px; background: #1a1a2e; flex-wrap: wrap; }
         .filter-btn { padding: 6px 10px; border: 1px solid #444; background: #0f3460; color: #ccc; border-radius: 4px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; flex: 1; min-width: 60px; text-align: center; }
-        .filter-btn:hover { border-color: #e94560; }
-        .filter-btn.active { background: #e94560; color: #fff; border-color: #e94560; }
+        .filter-btn:hover { border-color: #ccc; }
+        .filter-btn.active { background: #e94560; color: #fff; border-color: #ccc; }
         
         .station-list { padding: 10px; flex: 1; overflow-y: auto; }
         .station-card { background: #0f3460; border-radius: 8px; padding: 10px; margin-bottom: 8px; border-left: 4px solid #e94560; }
@@ -42,18 +42,18 @@
         .station-name { font-weight: bold; font-size: 0.9rem; margin-bottom: 3px; }
         .station-location { color: #aaa; font-size: 0.8rem; }
         .station-coords { display: none; }
-        .station-notes { color: #888; font-size: 0.75rem; margin-top: 4px; font-style: italic; }
+        .station-notes { color: #999; font-size: 0.75rem; margin-top: 4px; font-style: italic; }
         
         .legend { padding: 12px 15px; background: #16213e; border-top: 1px solid #333; }
-        .legend h3 { font-size: 0.85rem; margin-bottom: 8px; color: #e94560; }
+        .legend h3 { font-size: 0.85rem; margin-bottom: 8px; color: #ccc; }
         .legend-items { display: flex; gap: 12px; flex-wrap: wrap; }
         .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.7rem; }
         .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
         
         .stats { display: flex; gap: 15px; padding: 10px 15px; background: #1a1a2e; border-bottom: 1px solid #333; }
         .stat { text-align: center; flex: 1; }
-        .stat-num { font-size: 1.2rem; font-weight: bold; color: #e94560; }
-        .stat-label { font-size: 0.65rem; color: #888; text-transform: uppercase; }
+        .stat-num { font-size: 1.2rem; font-weight: bold; color: #ccc; }
+        .stat-label { font-size: 0.65rem; color: #999; text-transform: uppercase; }
 
         /* Mobile Styles */
         @media (max-width: 768px) {
@@ -75,8 +75,8 @@
         
         .stats { display: flex; gap: 20px; padding: 10px 15px; background: #1a1a2e; border-bottom: 1px solid #333; }
         .stat { text-align: center; }
-        .stat-num { font-size: 1.4rem; font-weight: bold; color: #e94560; }
-        .stat-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+        .stat-num { font-size: 1.4rem; font-weight: bold; color: #ccc; }
+        .stat-label { font-size: 0.7rem; color: #999; text-transform: uppercase; }
         
         .leaflet-popup-content-wrapper { background: #16213e; color: #eee; }
         .leaflet-popup-tip { background: #16213e; }
@@ -616,7 +616,7 @@
                 let borderColor = '';
                 if (currentFilter === 'fresh') borderColor = 'border-left-color: #00d9ff;';
                 else if (currentFilter === 'brine') borderColor = 'border-left-color: #4ade80;';
-                else if (currentFilter === 'water') borderColor = 'border-left-color: #e94560;';
+                else if (currentFilter === 'water') borderColor = 'border-left-color: #ccc;';
                 else if (currentFilter === 'swd') borderColor = 'border-left-color: #ffd700;';
                 const typeClass = station.type.toLowerCase().replace(/\s+/g, '-');
                 card.className = `station-card ${typeClass}`;
