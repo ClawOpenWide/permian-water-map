@@ -783,8 +783,8 @@
                 card.className = `station-card ${typeClass}`;
                 if (borderColor) card.style = borderColor;
                 card.innerHTML = `
-                    ${(station.notes && station.notes.includes('Fresh')) || (station.description && station.description.includes('Fresh')) ? '<span class="station-type fresh">Fresh</span>' : ''}
-                    ${currentFilter === 'brine' && ((station.notes && station.notes.includes('Brine')) || (station.description && station.description.includes('Brine'))) ? '<span class="station-type brine">Brine</span>' : ''}
+                    ${currentFilter === 'fresh' && ((station.notes && station.notes.includes('Fresh')) || (station.description && station.description.includes('Fresh'))) ? '<span class="station-type fresh">Fresh</span>' : ''}
+                    ${currentFilter === 'brine' && station.type !== 'Brine' && ((station.notes && station.notes.includes('Brine')) || (station.description && station.description.includes('Brine'))) ? '<span class="station-type brine">Brine</span>' : ''}
                     <span class="station-type ${typeClass}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
                     <div class="station-name">${station.name}</div>
