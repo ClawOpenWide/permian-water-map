@@ -786,8 +786,8 @@
                 
                 card.innerHTML = `
                     ${currentFilter === 'brine' && hasFresh ? '<span class="station-type brine">Brine</span> <span class="station-type fresh">Fresh</span>' : ''}
-                    ${currentFilter === 'fresh' && hasFresh ? '<span class="station-type fresh">Fresh</span>' : ''}
-                    ${currentFilter !== 'brine' || !hasFresh ? '<span class="station-type ${typeClass}">' + (station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type) + '</span>' : ''}
+                    ${currentFilter === 'fresh' && hasFresh ? '<span class="station-type fresh">Fresh</span> <span class="station-type brine">Brine</span>' : ''}
+                    ${currentFilter !== 'brine' && currentFilter !== 'fresh' || (currentFilter === 'brine' && !hasFresh) || (currentFilter === 'fresh' && !hasFresh) ? '<span class="station-type ${typeClass}">' + (station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type) + '</span>' : ''}
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
                     <div class="station-name">${station.name}</div>
                     <div class="station-location">${station.county}, ${station.state}</div>
