@@ -127,89 +127,712 @@
 
     <script>
         // Station data - Updated with New Mexico
+        const stations = [
+        {
+                "name": "Chaparral - Blk 12",
+                "type": "Non-Potable Water",
+                "county": "Andrews",
+                "state": "TX",
+                "lat": 32.30475,
+                "lng": -102.594056,
+                "notes": "On FM 2371 near Hwy 115"
+        },
+        {
+                "name": "Chaparral - Goldsmith",
+                "type": "Non-Potable Water",
+                "county": "Ector",
+                "state": "TX",
+                "lat": 31.982858,
+                "lng": -102.606529,
+                "notes": "1 mi E of FM 866 on Hwy 158"
+        },
+        {
+                "name": "Chaparral - FM 2885",
+                "type": "Non-Potable Water",
+                "county": "Gaines",
+                "state": "TX",
+                "lat": 32.570632,
+                "lng": -102.684199,
+                "notes": "500 yds W of FM 307 on FM 2885"
+        },
+        {
+                "name": "Chaparral - 2401 Crossroads",
+                "type": "Non-Potable Water",
+                "county": "Glasscock",
+                "state": "TX",
+                "lat": 31.654624,
+                "lng": -101.743533,
+                "notes": "Intersection FM 2401 & FM 1357"
+        },
+        {
+                "name": "Chaparral - 5 Points",
+                "type": "Non-Potable Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.967549,
+                "lng": -102.02481,
+                "notes": "1-1/4 mi W of Hwy 158 on CR 120"
+        },
+        {
+                "name": "Chaparral - Crazy Corners",
+                "type": "Non-Potable Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.818557,
+                "lng": -101.793621,
+                "notes": "7 mi S of Hwy 158 on FM 1379"
+        },
+        {
+                "name": "Chaparral - E Windham",
+                "type": "Non-Potable Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.771245,
+                "lng": -102.026554,
+                "notes": "4 mi N of FM 1787 on Hwy 349"
+        },
+        {
+                "name": "Chaparral - FM 715",
+                "type": "Non-Potable Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.908435,
+                "lng": -102.018229,
+                "notes": "Intersection FM 715 & FM 1213"
+        },
+        {
+                "name": "Chaparral - Gun Club",
+                "type": "Non-Potable Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.929803,
+                "lng": -101.989431,
+                "notes": "Intersection FM 1213 & CR 150"
+        },
+        {
+                "name": "Chaparral - S Hwy 349",
+                "type": "Non-Potable Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.902685,
+                "lng": -102.051754,
+                "notes": "1/4 mi N of FM 1213 and Hwy 349"
+        },
+        {
+                "name": "Chaparral - Windham",
+                "type": "Non-Potable Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.698422,
+                "lng": -102.077806,
+                "notes": "500 yds W of CR 1240 on FM 1787"
+        },
+        {
+                "name": "Chaparral - Hwy 137 Driver",
+                "type": "Non-Potable Water",
+                "county": "Reagan",
+                "state": "TX",
+                "lat": 31.628496,
+                "lng": -101.627165,
+                "notes": "3-1/2 mi S of FM 2401 on Hwy 137"
+        },
+        {
+                "name": "Chaparral - Giddings",
+                "type": "Non-Potable Water",
+                "county": "Upton",
+                "state": "TX",
+                "lat": 31.533966,
+                "lng": -101.951593,
+                "notes": "1/4 mi N of FM 2401 on Hwy 349"
+        },
+        {
+                "name": "Chaparral - North Rankin",
+                "type": "Non-Potable Water",
+                "county": "Upton",
+                "state": "TX",
+                "lat": 31.44712,
+                "lng": -101.937557,
+                "notes": "1/4 mi N of CR 111 on Hwy 349"
+        },
+        {
+                "name": "Chaparral - Pembrook",
+                "type": "Non-Potable Water",
+                "county": "Upton",
+                "state": "TX",
+                "lat": 31.480549,
+                "lng": -101.844807,
+                "notes": "1/4 mi W of FM 2594 on CR 112"
+        },
+        {
+                "name": "The Tap",
+                "type": "Fresh Water",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.99,
+                "lng": -102.08,
+                "notes": "3615 N County Rd 1150 - Industrial fresh water"
+        },
+        {
+                "name": "Tall City Brine - South Midland",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": 31.97,
+                "lng": -102.08,
+                "notes": "203 West Wall St - 24/7 service"
+        },
+        {
+                "name": "Tall City Brine - St Lawrence (137)",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Tarzan (176)",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Midland Co (1379)",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Pecos (1450)",
+                "type": "Brine",
+                "county": "Pecos",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Upton Co (1492)",
+                "type": "Brine",
+                "county": "Upton",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Barstow",
+                "type": "Brine",
+                "county": "Winkler",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Big Spring",
+                "type": "Brine",
+                "county": "Howard",
+                "state": "TX",
+                "lat": 32.25,
+                "lng": -101.47,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Coyanosa",
+                "type": "Brine",
+                "county": "Pecos",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Denver City",
+                "type": "Brine",
+                "county": "Gaines",
+                "state": "TX",
+                "lat": 32.97,
+                "lng": -102.82,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Garden City",
+                "type": "Brine",
+                "county": "Glasscock",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Grady",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Kermit",
+                "type": "Brine",
+                "county": "Winkler",
+                "state": "TX",
+                "lat": 31.81,
+                "lng": -103.09,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Knott",
+                "type": "Brine",
+                "county": "Howard",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Levelland",
+                "type": "Brine",
+                "county": "Hockley",
+                "state": "TX",
+                "lat": 33.62,
+                "lng": -102.35,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Midkiff",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - North Big Lake",
+                "type": "Brine",
+                "county": "Glasscock",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - North Odessa",
+                "type": "Brine",
+                "county": "Ector",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - North Pecos (285)",
+                "type": "Brine",
+                "county": "Pecos",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Orla",
+                "type": "Brine",
+                "county": "Reeves",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Patricia",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - South Pecos (17)",
+                "type": "Brine",
+                "county": "Pecos",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Spraberry",
+                "type": "Brine",
+                "county": "Midland",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - Stanton",
+                "type": "Brine",
+                "county": "Martin",
+                "state": "TX",
+                "lat": 32.13,
+                "lng": -101.79,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - West Mentone",
+                "type": "Brine",
+                "county": "Pecos",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Tall City Brine - West Monahans",
+                "type": "Brine",
+                "county": "Winkler",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "description": "Brine Water Available - Fresh Water Currently Unavailable"
+        },
+        {
+                "name": "Velocity Water Solutions",
+                "type": "SWD",
+                "county": "Midland/Ector/Howard/Martin",
+                "state": "TX",
+                "lat": 31.95,
+                "lng": -102.05,
+                "notes": "18 SWDs in West Texas - operates 24/7"
+        },
+        {
+                "name": "Aris Water Solutions",
+                "type": "SWD",
+                "county": "Midland/Martin/Reagan",
+                "state": "TX",
+                "lat": 31.96,
+                "lng": -102.06,
+                "notes": "Leading produced water infrastructure Permian Basin"
+        },
+        {
+                "name": "Goodnight Midstream",
+                "type": "SWD",
+                "county": "Multiple Permian Counties",
+                "state": "TX",
+                "lat": 31.94,
+                "lng": -102.04,
+                "notes": "Extensive SWD network in West Texas"
+        },
+        {
+                "name": "NGL Energy Partners",
+                "type": "SWD",
+                "county": "Midland Basin",
+                "state": "TX",
+                "lat": 31.97,
+                "lng": -102.07,
+                "notes": "Water solutions midstream partner"
+        },
+        {
+                "name": "Aqua Terra Water Management",
+                "type": "SWD",
+                "county": "Permian Basin",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "notes": "Full-service water disposal"
+        },
+        {
+                "name": "WaterBridge Operating",
+                "type": "SWD",
+                "county": "Midland/Martin/Reagan/Upton",
+                "state": "TX",
+                "lat": 31.6,
+                "lng": -101.6,
+                "notes": "Southern Delaware Basin water gathering/disposal"
+        },
+        {
+                "name": "H2O Midstream",
+                "type": "SWD",
+                "county": "Permian Basin",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "notes": "Produced water gathering/disposal/recycling"
+        },
+        {
+                "name": "Enhanced Midstream",
+                "type": "SWD",
+                "county": "Permian Basin",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "notes": "Water infrastructure integration"
+        },
+        {
+                "name": "Lagoon Water Midstream",
+                "type": "SWD",
+                "county": "Midland/Martin",
+                "state": "TX",
+                "lat": 32.1,
+                "lng": -101.8,
+                "notes": "100+ miles pipeline network - multiple SWDs"
+        },
+        {
+                "name": "Gravity Oilfield Services",
+                "type": "SWD",
+                "county": "Permian Basin",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "notes": "Water solutions and infrastructure"
+        },
+        {
+                "name": "Pilot Water Solutions",
+                "type": "SWD",
+                "county": "Delaware Basin",
+                "state": "TX",
+                "lat": null,
+                "lng": null,
+                "notes": "Delaware Basin water midstream partner"
+        },
+        {
+                "name": "3 Bear Energy - Central Facility",
+                "type": "SWD",
+                "county": "Lea County",
+                "state": "NM",
+                "lat": 32.8,
+                "lng": -103.3,
+                "notes": "250,000 bbl impoundment pit & SWD"
+        },
+        {
+                "name": "3 Bear Energy - Cottonwood Water",
+                "type": "SWD",
+                "county": "Lea County",
+                "state": "NM",
+                "lat": 32.85,
+                "lng": -103.35,
+                "notes": "Two Devonian SWDs, 600,000 bbl recycled water storage"
+        },
+        {
+                "name": "Agave Transportation",
+                "county": "Carlsbad",
+                "state": "NM",
+                "lat": 32.42,
+                "lng": -104.23,
+                "notes": "Water hauling/vacuum trucking - Northern Delaware Basin"
+        },
+        {
+                "name": "All In Oilfield Services",
+                "county": "Carlsbad",
+                "state": "NM",
+                "lat": 32.42,
+                "lng": -104.23,
+                "notes": "1900 W Church Apt 5 - 575-236-6012"
+        },
+        {
+                "county": "Hobbs/Carlsbad/Eunice/Jal",
+                "state": "NM",
+                "lat": 33.5,
+                "lng": -103.2,
+        },
+        {
+                "name": "Commercial Disposal - Eddy Co",
+                "type": "SWD",
+                "county": "Eddy County",
+                "state": "NM",
+                "lat": 32.5,
+                "lng": -104,
+                "notes": "Deep SWD permitted for high-volume injection"
+        },
+        {
+                "name": "Lea County SWD Facilities",
+                "type": "SWD",
+                "county": "Lea County",
+                "state": "NM",
+                "lat": 32.75,
+                "lng": -103.4,
+                "notes": "Multiple deep SWDs - 130+ permitted at 20,000 bbl/d+"
+        },
+        {
+                "name": "NM Oil Conservation Div - SWD",
+                "type": "SWD",
+                "county": "Various NM Counties",
+                "state": "NM",
+                "lat": 32.6,
+                "lng": -103.8,
+                "notes": "NM OCD permitted SWDs in Delaware Basin"
+        },
+        {
+                "name": "Water Processing LLC",
+                "county": "Hobbs",
+                "state": "NM",
+                "lat": 33.4,
+                "lng": -103.3,
+                "notes": "575-393-9606 - Water services in Hobbs area"
+        },
+        {
+                "name": "Solaris Water Midstream",
+                "type": "SWD",
+                "county": "Carlsbad/Eddy",
+                "state": "NM",
+                "lat": 32.42,
+                "lng": -104.23,
+                "notes": "Houston-based, offices in Carlsbad NM - Delaware Basin operations"
+        },
+        {
+                "name": "Solaris Water - Vision Resources",
+                "type": "SWD",
+                "county": "Lea County",
+                "state": "NM",
+                "lat": 32.75,
+                "lng": -103.15,
+                "notes": "Acquired from Vision Resources - major NM expansion"
+        },
+        {
+                "name": "B3 Water Solutions NM",
+                "type": "SWD",
+                "county": "Permian Basin",
+                "state": "NM",
+                "lat": 32.6,
+                "lng": -103.8,
+                "notes": "Water balance reporting - 4.7M bbl/d reuse"
+        },
+        {
+                "name": "TETRA Technologies",
+                "type": "SWD",
+                "county": "Lea/Eddy",
+                "state": "NM",
+                "lat": 32.65,
+                "lng": -103.5,
+                "notes": "SwiftWater frac water services in Permian"
+        }
+];
+;
 
-    <script>
-        const SUPABASE_URL = 'https://cqfvypmrogoootehsdfh.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxZnZ5cG1yb2dvb290ZWhzZGZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2Mzk1ODcsImV4cCI6MjA5MTIxNTU4N30.rGxaQsZhyjy7gaw7ZHmAVyKW1phQP2Ea4ZhHuWBeH_Q';
+        // Color mapping
+        const colors = {
+            'Non-Potable Water': '#e94560',
+            'Fresh Water': '#00d9ff',
+            'Brine': '#4ade80',
+            'SWD': '#ffd700',
+        };
+
+        // Initialize map
+        const map = L.map('map').setView([32.5, -103.5], 7);
         
-        let stations = [];
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+            maxZoom: 19
+        }).addTo(map);
+
         let markers = [];
         let currentFilter = 'all';
 
-        async function loadStations() {
-            try {
-                const response = await fetch(SUPABASE_URL + '/rest/v1/stations?select=*&lat=not.is.null&lng=not.is.null', {
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-                });
-                stations = await response.json();
-                console.log('Loaded ' + stations.length + ' stations from database');
-                renderStations();
-                updateStats();
-            } catch (error) { console.error('Error loading stations:', error); }
-        }
-
-        function updateStats() {
-            const water = stations.filter(s => s.type === 'water' || s.type === 'fresh').length;
-            const brine = stations.filter(s => s.type === 'brine').length;
-            const swd = stations.filter(s => s.type === 'swd').length;
-            const els = document.querySelectorAll('.stat-num');
-            if(els[0]) els[0].textContent = water;
-            if(els[1]) els[1].textContent = brine;
-            if(els[2]) els[2].textContent = swd;
+        function getMarkerColor(type) {
+            return colors[type] || '#e94560';
         }
 
         function createMarker(station) {
-            const colors = { 'water': '#e94560', 'fresh': '#00d9ff', 'brine': '#4ade80', 'swd': '#ffd700' };
-            const marker = L.circleMarker([station.lat, station.lng], { radius: 8, fillColor: colors[station.type]||'#e94560', color: '#fff', weight: 2, fillOpacity: 0.8 });
-            marker.bindPopup("<strong>"+station.name+"</strong><br>"+(station.type||'Brine')+"<br>"+(station.description||station.notes||''));
+            const color = getMarkerColor(station.type);
+            const markerHtml = `
+                <div style="background:${color};width:16px;height:16px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 4px rgba(0,0,0,0.5);"></div>
+            `;
+            
+            const icon = L.divIcon({
+                html: markerHtml,
+                className: 'custom-marker',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+            
+            const marker = L.marker([station.lat, station.lng], { icon: icon });
+            
+            const popupContent = `
+                <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
+                    <strong style="font-size:14px;">${station.name}</strong><br>
+                    <span style="color:#888;font-size:12px;">${station.county}, ${station.state}</span><br>
+                    <span style="color:#666;font-size:11px;">${station.notes}</span>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            marker.stationType = station.type;
             return marker;
         }
 
         function renderStations() {
-            document.getElementById('stationList').innerHTML = '';
+            const list = document.getElementById('stationList');
+            list.innerHTML = '';
+            
+            // Clear existing markers
             markers.forEach(m => map.removeLayer(m));
             markers = [];
-            const filtered = currentFilter === 'all' ? stations : stations.filter(s => {
-                const d = (s.description||s.notes||'').toLowerCase();
-                if(currentFilter === 'water') return s.type === 'water';
-                if(currentFilter === 'fresh') return s.type === 'fresh' || s.has_fresh === true;
-                if(currentFilter === 'brine') return s.type === 'brine' || s.has_brine === true;
-                if(currentFilter === 'swd') return s.type === 'swd';
-                return true;
+            
+            const filtered = currentFilter === 'all' 
+                ? stations 
+                : stations.filter(s => {
+                    if (currentFilter === 'water') return s.type === 'Non-Potable Water' || s.type === 'Fresh Water';
+                    if (currentFilter === 'brine') return s.type === 'Brine' || s.description && s.description.includes('Brine') || s.notes && s.notes.includes('Brine');
+                    if (currentFilter === 'fresh') return s.type === 'Fresh Water' || s.description && s.description.includes('Fresh') || s.notes && s.notes.includes('Fresh');
+                    if (currentFilter === 'swd') return s.type === 'SWD';
+                    return true;
+                });
+            
+            filtered.forEach(station => {
+                // Skip stations without valid coordinates
+                if (!station.lat || !station.lng) return;
+                
+                // Add to map
+                const marker = createMarker(station);
+                marker.addTo(map);
+                markers.push(marker);
+                
+                // Add to sidebar
+                const card = document.createElement('div');
+                let borderColor = '';
+                if (currentFilter === 'fresh') borderColor = 'border-left-color: #00d9ff;';
+                else if (currentFilter === 'brine') borderColor = 'border-left-color: #4ade80;';
+                else if (currentFilter === 'water') borderColor = 'border-left-color: #e94560;';
+                else if (currentFilter === 'swd') borderColor = 'border-left-color: #ffd700;';
+                const typeClass = station.type.toLowerCase().replace(/\s+/g, '-');
+                card.className = `station-card ${typeClass}`;
+                if (borderColor) card.style = borderColor;
+                card.innerHTML = `
+                    <span class="station-type ${typeClass}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
+                    <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
+                    <div class="station-name">${station.name}</div>
+                    <div class="station-location">${station.county}, ${station.state}</div>
+                    <div class="station-coords">${station.lat.toFixed(4)}, ${station.lng.toFixed(4)}</div>
+                    <div class="station-notes">${station.notes}</div>
+                `;
+                card.onclick = () => map.setView([station.lat, station.lng], 10);
+                list.appendChild(card);
             });
-            filtered.forEach(s => {
-                if(!s.lat||!s.lng) return;
-                const m = createMarker(s);
-                m.addTo(map);
-                markers.push(m);
-                const c = document.createElement('div');
-                let bc = '';
-                if(currentFilter==='fresh') bc='border-left-color:#00d9ff;';
-                else if(currentFilter==='brine') bc='border-left-color:#4ade80;';
-                else if(currentFilter==='water') bc='border-left-color:#e94560;';
-                else if(currentFilter==='swd') bc='border-left-color:#ffd700;';
-                c.className = 'station-card '+(s.type||'brine').toLowerCase();
-                if(bc) c.style.cssText = bc;
-                const tn = s.type==='water' ? 'Non-Potable' : (s.type ? s.type.charAt(0).toUpperCase()+s.type.slice(1) : 'Brine');
-                let badges = '';
-if(s.has_brine) badges += '<span class="station-type brine">Brine</span>';
-if(s.has_fresh) badges += '<span class="station-type fresh">Fresh</span>';
-c.innerHTML = '<span class="station-type '+(s.type||'brine').toLowerCase()+'">'+tn+'</span><span class="state-badge '+(s.state||'TX').toLowerCase()+'">'+(s.state||'TX')+'</span><div class="station-name">'+s.name+'</div><div class="station-location">'+(s.county||'')+', '+(s.state||'TX')+'</div><div class="station-badges">'+badges+'</div>';
-                c.onclick = () => map.setView([s.lat, s.lng], 10);
-                document.getElementById('stationList').appendChild(c);
-            });
+        }
+
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('closed');
         }
 
         function filterStations(type) {
             currentFilter = type;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('.filter-btn[onclick*="'+type+'"]').classList.add('active');
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.filter-btn[onclick="filterStations('${type}')"]`).classList.add('active');
             renderStations();
         }
 
-        const map = L.map('map').setView([32.5, -103.5], 7);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; OpenStreetMap'}).addTo(map);
-        loadStations();
+        // Initial render
+        renderStations();
     </script>
 </body>
 </html>
