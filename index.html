@@ -783,10 +783,9 @@
                 card.className = `station-card ${typeClass}`;
                 if (borderColor) card.style = borderColor;
                 const hasFresh = (station.notes && station.notes.includes('Fresh')) || (station.description && station.description.includes('Fresh'));
-                const hasBrineInNotes = (station.notes && station.notes.includes('Brine')) || (station.description && station.description.includes('Brine'));
                 
                 card.innerHTML = `
-                    ${currentFilter === 'brine' && station.type !== 'Brine' && hasBrineInNotes ? '<span class="station-type brine">Brine</span>' : ''}
+                    ${currentFilter === 'brine' && hasFresh ? '<span class="station-type brine">Brine</span><span class="station-type fresh">Fresh</span>' : ''}
                     ${currentFilter === 'fresh' && hasFresh ? '<span class="station-type fresh">Fresh</span>' : ''}
                     <span class="station-type ${typeClass}">${station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type}</span>
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
