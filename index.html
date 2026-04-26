@@ -788,15 +788,11 @@
                     return true;
                 });
             
-            // Update listing count display
-            document.getElementById('listingCount').textContent = '(' + filtered.length + ' listings)';
+            // Debug: count by type
+            const swdCount = filtered.filter(s => s.type === 'SWD').length;
+            document.getElementById('listingCount').textContent = '(' + filtered.length + ' total, ' + swdCount + ' SWD)';
             
             filtered.forEach(station => {
-                // Debug: log station count by type
-                if (station.type === 'SWD') {
-                    console.log('SWD station:', station.name);
-                }
-                
                 // Add to sidebar listing (all stations, even without coordinates)
                 const card = document.createElement('div');
                 let borderColor = '';
