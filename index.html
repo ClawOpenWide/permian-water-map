@@ -782,8 +782,8 @@
                 ? stations 
                 : stations.filter(s => {
                     if (currentFilter === 'water') return s.type === 'Non-Potable Water' || s.type === 'Fresh Water';
-                    if (currentFilter === 'brine') return s.type === 'Brine' || s.description && s.description.includes('Brine');
-                    if (currentFilter === 'fresh') return s.type === 'Fresh Water' || s.description && s.description.includes('Fresh');
+                    if (currentFilter === 'brine') return s.type === 'Brine' || s.description && s.description.includes('Brine') || s.notes && s.notes.includes('Brine');
+                    if (currentFilter === 'fresh') return s.type === 'Fresh Water' || s.description && s.description.includes('Fresh') || s.notes && s.notes.includes('Fresh');
                     if (currentFilter === 'swd') return s.type === 'SWD';
                     return true;
                 });
