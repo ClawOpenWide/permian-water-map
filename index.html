@@ -784,10 +784,22 @@
                 if (borderColor) card.style = borderColor;
                 const hasFresh = (station.notes && station.notes.includes('Fresh')) || (station.description && station.description.includes('Fresh'));
                 
+                // For Brine and Fresh tabs, always show badges
+                let typeBadges = '';
+                if (currentFilter === 'brine') {
+                    typeBadges = hasFresh 
+                        ? '<span class="station-type brine">Brine</span> <span class="station-type fresh">Fresh</span>'
+                        : '<span class="station-type brine">Brine</span>';
+                } else if (currentFilter === 'fresh') {
+                    typeBadges = hasFresh 
+                        ? '<span class="station-type fresh">Fresh</span> <span class="station-type brine">Brine</span>'
+                        : '<span class="station-type fresh">Fresh</span>';
+                } else {
+                    typeBadges = '<span class="station-type ' + typeClass + '">' + (station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type) + '</span>';
+                }
+                
                 card.innerHTML = `
-                    ${currentFilter === 'brine' && hasFresh ? '<span class="station-type brine">Brine</span> <span class="station-type fresh">Fresh</span>' : ''}
-                    ${currentFilter === 'fresh' && hasFresh ? '<span class="station-type fresh">Fresh</span> <span class="station-type brine">Brine</span>' : ''}
-                    ${currentFilter !== 'brine' && currentFilter !== 'fresh' || (currentFilter === 'brine' && !hasFresh) || (currentFilter === 'fresh' && !hasFresh) ? '<span class="station-type ${typeClass}">' + (station.type === 'Non-Potable Water' ? 'Non-Potable' : station.type) + '</span>' : ''}
+                    ${typeBadges}
                     <span class="state-badge ${station.state.toLowerCase()}">${station.state}</span>
                     <div class="station-name">${station.name}</div>
                     <div class="station-location">${station.county}, ${station.state}</div>
